@@ -1,33 +1,40 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-const tools = [
-  { category: "Developer", items: [
-    { href: "/json-formatter", label: "JSON Formatter" },
-    { href: "/yaml-validator", label: "YAML Validator" },
-    { href: "/text-diff", label: "Text Diff" },
-    { href: "/encoder-decoder", label: "Base64 / URL / JWT" },
-    { href: "/regex-tester", label: "Regex Tester" },
-    { href: "/gitignore-generator", label: ".gitignore Generator" },
-    { href: "/timestamp-converter", label: "Timestamp Converter" },
-    { href: "/password-generator", label: "Password Generator" },
-    { href: "/color-converter", label: "Color Converter" },
-    { href: "/cpf-cnpj-generator", label: "CPF / CNPJ" },
-  ]},
-  { category: "Utilities", items: [
-    { href: "/word-counter", label: "Word Counter" },
-    { href: "/unit-converter", label: "Unit Converter" },
-    { href: "/bmi-calculator", label: "BMI Calculator" },
-    { href: "/compound-interest", label: "Compound Interest" },
-  ]},
-];
+import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const t = useTranslations("sidebar");
+
+  const groups = [
+    {
+      label: t("developer"),
+      items: [
+        { href: "/json-formatter", label: t("jsonFormatter") },
+        { href: "/yaml-validator", label: t("yamlValidator") },
+        { href: "/text-diff", label: t("textDiff") },
+        { href: "/encoder-decoder", label: t("encoderDecoder") },
+        { href: "/regex-tester", label: t("regexTester") },
+        { href: "/gitignore-generator", label: t("gitignoreGenerator") },
+        { href: "/timestamp-converter", label: t("timestampConverter") },
+        { href: "/password-generator", label: t("passwordGenerator") },
+        { href: "/color-converter", label: t("colorConverter") },
+        { href: "/cpf-cnpj-generator", label: t("cpfCnpj") },
+      ],
+    },
+    {
+      label: t("utilities"),
+      items: [
+        { href: "/word-counter", label: t("wordCounter") },
+        { href: "/unit-converter", label: t("unitConverter") },
+        { href: "/bmi-calculator", label: t("bmiCalculator") },
+        { href: "/compound-interest", label: t("compoundInterest") },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -38,22 +45,16 @@ export default function Sidebar() {
         aria-label="Open menu"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+          <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
         </svg>
       </button>
 
-      {/* Overlay */}
       {open && (
-        <div
-          className="fixed inset-0 z-40"
-          style={{ background: "rgba(0,0,0,0.5)" }}
-          onClick={() => setOpen(false)}
-        />
+        <div className="fixed inset-0 z-40" style={{ background: "rgba(0,0,0,0.5)" }} onClick={() => setOpen(false)} />
       )}
 
-      {/* Drawer */}
       <aside
-        className="fixed top-0 left-0 h-full z-50 flex flex-col overflow-y-auto transition-transform"
+        className="fixed top-0 left-0 h-full z-50 flex flex-col overflow-y-auto"
         style={{
           width: "260px",
           background: "var(--surface)",
@@ -68,16 +69,16 @@ export default function Sidebar() {
           </Link>
           <button onClick={() => setOpen(false)} className="cursor-pointer hover:opacity-80" style={{ color: "var(--text-muted)" }}>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
             </svg>
           </button>
         </div>
 
         <nav className="flex flex-col gap-6 px-3 py-5">
-          {tools.map((group) => (
-            <div key={group.category}>
+          {groups.map((group) => (
+            <div key={group.label}>
               <p className="text-xs font-semibold uppercase tracking-widest px-3 mb-2" style={{ color: "var(--text-muted)" }}>
-                {group.category}
+                {group.label}
               </p>
               <div className="flex flex-col gap-0.5">
                 {group.items.map((item) => {

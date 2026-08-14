@@ -1,10 +1,17 @@
 "use client";
 
 import { useState, useMemo } from "react";
-
-const fmt = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
+import { useLocale } from "next-intl";
 
 export default function CompoundClient() {
+  const locale = useLocale();
+  const isBR = locale === "pt";
+  const fmt = (n: number) =>
+    n.toLocaleString(isBR ? "pt-BR" : "en-US", {
+      style: "currency",
+      currency: isBR ? "BRL" : "USD",
+      maximumFractionDigits: 2,
+    });
   const [principal, setPrincipal] = useState("10000");
   const [rate, setRate] = useState("8");
   const [years, setYears] = useState("10");
@@ -29,10 +36,10 @@ export default function CompoundClient() {
   const totalInterest = finalBalance - totalContributions;
 
   const fields = [
-    { label: "Initial Investment ($)", value: principal, set: setPrincipal, placeholder: "10000" },
-    { label: "Annual Interest Rate (%)", value: rate, set: setRate, placeholder: "8" },
-    { label: "Time Period (years)", value: years, set: setYears, placeholder: "10" },
-    { label: "Monthly Contribution ($)", value: monthly, set: setMonthly, placeholder: "0" },
+    { label: isBR ? "Investimento Inicial (R$)" : "Initial Investment ($)", value: principal, set: setPrincipal, placeholder: "10000" },
+    { label: isBR ? "Taxa de Juros Anual (%)" : "Annual Interest Rate (%)", value: rate, set: setRate, placeholder: "8" },
+    { label: isBR ? "Período (anos)" : "Time Period (years)", value: years, set: setYears, placeholder: "10" },
+    { label: isBR ? "Aporte Mensal (R$)" : "Monthly Contribution ($)", value: monthly, set: setMonthly, placeholder: "0" },
   ];
 
   return (
@@ -52,9 +59,9 @@ export default function CompoundClient() {
         <>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { label: "Final Balance", value: fmt(finalBalance), color: "var(--success)" },
-              { label: "Total Contributed", value: fmt(totalContributions), color: "var(--text)" },
-              { label: "Interest Earned", value: fmt(totalInterest), color: "var(--accent-hover)" },
+              { label: isBR ? "Saldo Final" : "Final Balance", value: fmt(finalBalance), color: "var(--success)" },
+              { label: isBR ? "Total Investido" : "Total Contributed", value: fmt(totalContributions), color: "var(--text)" },
+              { label: isBR ? "Juros Ganhos" : "Interest Earned", value: fmt(totalInterest), color: "var(--accent-hover)" },
             ].map((s) => (
               <div key={s.label} className="rounded-xl px-4 py-3 flex flex-col gap-1" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
                 <span className="text-xs" style={{ color: "var(--text-muted)" }}>{s.label}</span>
@@ -65,7 +72,7 @@ export default function CompoundClient() {
 
           <div className="rounded-xl overflow-hidden" style={{ border: "1px solid var(--border)" }}>
             <div className="grid grid-cols-3 px-4 py-2 text-xs font-semibold uppercase tracking-wide" style={{ background: "var(--surface-2)", color: "var(--text-muted)" }}>
-              <span>Year</span><span className="text-right">Balance</span><span className="text-right">Interest</span>
+              <span>{isBR ? "Ano" : "Year"}</span><span className="text-right">{isBR ? "Saldo" : "Balance"}</span><span className="text-right">{isBR ? "Juros" : "Interest"}</span>
             </div>
             <div className="max-h-64 overflow-y-auto">
               {rows.map((r) => {
@@ -73,7 +80,7 @@ export default function CompoundClient() {
                 const interest = r.balance - contributed;
                 return (
                   <div key={r.year} className="grid grid-cols-3 px-4 py-2 text-sm" style={{ borderTop: "1px solid var(--border)", color: "var(--text)" }}>
-                    <span style={{ color: "var(--text-muted)" }}>Year {r.year}</span>
+                    <span style={{ color: "var(--text-muted)" }}>{isBR ? "Ano" : "Year"} {r.year}</span>
                     <span className="text-right">{fmt(r.balance)}</span>
                     <span className="text-right" style={{ color: "var(--accent-hover)" }}>{fmt(interest)}</span>
                   </div>
