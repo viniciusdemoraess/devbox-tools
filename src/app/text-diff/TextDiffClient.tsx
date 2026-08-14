@@ -20,13 +20,13 @@ function DiffView({ changes }: { changes: Change[] }) {
             let nl: number | string = "";
 
             if (change.added) {
-              bg = "#14532d40";
-              color = "#86efac";
+              bg = "var(--diff-added-bg)";
+              color = "var(--success)";
               prefix = "+";
               nl = newLine++;
             } else if (change.removed) {
-              bg = "#450a0a40";
-              color = "#fca5a5";
+              bg = "var(--diff-removed-bg)";
+              color = "var(--error)";
               prefix = "−";
               ol = oldLine++;
             } else {
@@ -126,10 +126,10 @@ export default function TextDiffClient() {
         </button>
         {changes && (
           <div className="flex gap-3 text-sm ml-2">
-            <span className="px-2 py-0.5 rounded" style={{ background: "#14532d40", color: "#86efac" }}>
+            <span className="px-2 py-0.5 rounded" style={{ background: "var(--success-bg)", color: "var(--success)" }}>
               +{stats.added} added
             </span>
-            <span className="px-2 py-0.5 rounded" style={{ background: "#450a0a40", color: "#fca5a5" }}>
+            <span className="px-2 py-0.5 rounded" style={{ background: "var(--error-bg)", color: "var(--error)" }}>
               −{stats.removed} removed
             </span>
           </div>

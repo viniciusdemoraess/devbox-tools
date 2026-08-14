@@ -95,7 +95,7 @@ function ResultCard({ label, formatted, raw }: { label: string; formatted: strin
       <button
         onClick={copyFormatted}
         className="px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity shrink-0"
-        style={{ background: copiedFormatted ? "#14532d" : "var(--accent)", color: "#fff" }}
+        style={{ background: copiedFormatted ? "var(--success)" : "var(--accent)", color: "#fff" }}
       >
         {copiedFormatted ? "Copiado!" : "Copiar"}
       </button>
@@ -232,7 +232,7 @@ export default function CpfCnpjClient() {
             <div
               className="flex items-center gap-3 px-4 py-4 rounded-xl text-sm font-semibold"
               style={{
-                background: validateResult.valid ? "#14532d" : "#450a0a",
+                background: validateResult.valid ? "var(--success-bg)" : "var(--error-bg)",
                 border: `1px solid ${validateResult.valid ? "var(--success)" : "var(--error)"}`,
                 color: validateResult.valid ? "var(--success)" : "var(--error)",
               }}

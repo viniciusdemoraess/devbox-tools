@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 const CHARS = {
   upper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -37,14 +37,14 @@ function generate(length: number, opts: Record<string, boolean>): string {
 export default function PasswordClient() {
   const [length, setLength] = useState(16);
   const [opts, setOpts] = useState({ upper: true, lower: true, numbers: true, symbols: false });
-  const [passwords, setPasswords] = useState<string[]>([]);
+  const [passwords, setPasswords] = useState<string[]>(() =>
+    Array.from({ length: 5 }, () => generate(16, { upper: true, lower: true, numbers: true, symbols: false }))
+  );
   const [copied, setCopied] = useState<number | null>(null);
 
   const handleGenerate = useCallback(() => {
     setPasswords(Array.from({ length: 5 }, () => generate(length, opts)));
   }, [length, opts]);
-
-  useEffect(() => { handleGenerate(); }, []);
 
   const handleCopy = (pw: string, i: number) => {
     navigator.clipboard.writeText(pw);
@@ -85,7 +85,7 @@ export default function PasswordClient() {
 
         <button
           onClick={handleGenerate}
-          className="px-5 py-2.5 rounded-lg font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity w-full"
+          className="btn-press px-5 py-2.5 rounded-lg font-medium text-sm cursor-pointer w-full"
           style={{ background: "var(--accent)", color: "#fff" }}
         >
           Generate Passwords
@@ -102,7 +102,7 @@ export default function PasswordClient() {
                 <button
                   onClick={() => handleCopy(pw, i)}
                   className="px-4 py-1.5 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity shrink-0"
-                  style={{ background: copied === i ? "#14532d" : "var(--accent)", color: "#fff" }}
+                  style={{ background: copied === i ? "var(--success)" : "var(--accent)", color: "#fff" }}
                 >
                   {copied === i ? "Copied!" : "Copy"}
                 </button>

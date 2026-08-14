@@ -1,20 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f1117;
-  --surface: #1a1d27;
-  --surface-2: #22263a;
-  --border: #2e3248;
-  --text: #e2e8f0;
-  --text-muted: #8892a4;
+  --background: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f0eee6;
+  --border: #1414131a;
+  --text: #141413;
+  --text-muted: #5e5d59;
   --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --success: #22c55e;
-  --error: #ef4444;
+  --accent-hover: #4f46e5;
+  --success: #16A34A;
+  --error: #DC2626;
+  --success-bg: #DCFCE7;
+  --error-bg: #FEE2E2;
+  --diff-added-bg: rgba(22, 163, 74, 0.1);
+  --diff-removed-bg: rgba(220, 38, 38, 0.09);
 }
 
 body {
   background: var(--background);
   color: var(--text);
   font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+
+/* Override Tailwind utilities — styles outside @layer have higher cascade priority */
+textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+input[type="checkbox"],
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+.tool-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px -4px rgba(99, 102, 241, 0.2);
+  border-color: var(--accent) !important;
+}
+
+.btn-press {
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.btn-press:hover {
+  opacity: 0.88;
+}
+
+.btn-press:active {
+  transform: scale(0.97);
+  opacity: 1;
 }

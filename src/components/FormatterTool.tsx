@@ -115,7 +115,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
               Output
             </label>
             {status === "valid" && (
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1" style={{ background: "#14532d", color: "var(--success)" }}>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1" style={{ background: "var(--success-bg)", color: "var(--success)" }}>
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                   <path d="M1.5 5L4 7.5L8.5 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -125,11 +125,11 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
             {status === "error" && (
               <div className="flex items-center gap-2">
                 {errorLine && (
-                  <span className="text-xs font-mono px-2 py-0.5 rounded" style={{ background: "#450a0a", color: "#fca5a5" }}>
+                  <span className="text-xs font-mono px-2 py-0.5 rounded" style={{ background: "var(--error-bg)", color: "var(--error)" }}>
                     Line {errorLine}{errorColumn ? `:${errorColumn}` : ""}
                   </span>
                 )}
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "#450a0a", color: "var(--error)" }}>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "var(--error-bg)", color: "var(--error)" }}>
                   Invalid
                 </span>
               </div>
@@ -154,7 +154,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
       <div className="flex flex-wrap gap-3">
         <button
           onClick={handleFormat}
-          className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
+          className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
           style={{ background: "var(--accent)", color: "#fff" }}
         >
           Format / Validate
@@ -162,7 +162,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
         {minify && (
           <button
             onClick={handleMinify}
-            className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-80 transition-opacity"
+            className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
             style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
           >
             Minify
@@ -170,7 +170,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
         )}
         <button
           onClick={handleCopy}
-          className="px-5 py-2 rounded-lg font-medium text-sm transition-opacity"
+          className="btn-press px-5 py-2 rounded-lg font-medium text-sm"
           style={{
             background: "var(--surface-2)",
             color: output ? "var(--text)" : "var(--text-muted)",
@@ -184,14 +184,14 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
         </button>
         <button
           onClick={handleExample}
-          className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-80 transition-opacity"
+          className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
           style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
         >
           Load Example
         </button>
         <button
           onClick={handleClear}
-          className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-80 transition-opacity"
+          className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
           style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
         >
           Clear
