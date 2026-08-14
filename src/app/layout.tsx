@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -24,6 +25,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col" style={{ background: "var(--background)", color: "var(--text)" }}>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-LMD1T4RJYL"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-LMD1T4RJYL');
+          `}
+        </Script>
         <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--border)" }}>
           <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-8">
             <Link href="/" className="font-bold text-lg tracking-tight" style={{ color: "var(--accent-hover)" }}>
