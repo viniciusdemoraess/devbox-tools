@@ -19,6 +19,18 @@ const tools = [
     description: "Validate and format YAML files with detailed error messages.",
     tag: "---",
   },
+  {
+    href: "/timestamp-converter",
+    title: "Unix Timestamp Converter",
+    description: "Convert Unix timestamps to readable dates and vice versa. Supports seconds and milliseconds.",
+    tag: "TS",
+  },
+  {
+    href: "/cpf-cnpj-generator",
+    title: "Gerador de CPF e CNPJ",
+    description: "Gere CPF e CNPJ válidos para testes de software. Inclui validador integrado.",
+    tag: "BR",
+  },
 ];
 
 export default function Home() {

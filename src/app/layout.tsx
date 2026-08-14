@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 const tools = [
   { href: "/json-formatter", label: "JSON Formatter" },
   { href: "/yaml-validator", label: "YAML Validator" },
+  { href: "/timestamp-converter", label: "Timestamp Converter" },
+  { href: "/cpf-cnpj-generator", label: "CPF/CNPJ Generator" },
 ];
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
