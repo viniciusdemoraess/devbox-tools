@@ -8,8 +8,11 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: { default: "DevBox Tools", template: "%s | DevBox Tools" },
-  description: "Free online developer tools — JSON formatter, YAML validator, SQL formatter, and more.",
+  description: "Free online developer tools — JSON formatter, YAML validator, and more.",
   metadataBase: new URL("https://devbox.tools"),
+  verification: {
+    google: "CC28w4J744vKnS9WrFRMTJ76swP3pdwuQvfzXpaRnxI",
+  },
 };
 
 const tools = [
