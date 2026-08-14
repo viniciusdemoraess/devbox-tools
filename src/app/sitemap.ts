@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = "https://devbox.tools";
+const BASE_URL = "https://devbox-tools-puce.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
