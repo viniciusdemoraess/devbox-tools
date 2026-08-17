@@ -8,6 +8,7 @@ export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const t = useTranslations("sidebar");
+  const tn = useTranslations("nav");
 
   const groups = [
     {
@@ -32,6 +33,17 @@ export default function Sidebar() {
         { href: "/unit-converter", label: t("unitConverter") },
         { href: "/bmi-calculator", label: t("bmiCalculator") },
         { href: "/compound-interest", label: t("compoundInterest") },
+      ],
+    },
+    {
+      label: tn("institutional"),
+      items: [
+        { href: "/about", label: tn("about") },
+        { href: "/contact", label: tn("contact") },
+        { href: "/support", label: tn("support") },
+        { href: "/cnpj-alfanumerico", label: tn("cnpjGuide") },
+        { href: "/privacy-policy", label: tn("privacy") },
+        { href: "/terms-of-use", label: tn("terms") },
       ],
     },
   ];

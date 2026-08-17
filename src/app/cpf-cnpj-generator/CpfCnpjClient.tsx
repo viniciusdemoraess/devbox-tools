@@ -1,64 +1,36 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
+import {
+  generateCpf,
+  formatCpf,
+  generateNumericCnpj,
+  generateAlphanumericCnpj,
+  formatCnpj,
+  validateCpf,
+  validateCnpjFull,
+} from "@/lib/cpf-cnpj";
 
-// --- CPF ---
-function calcCpfDigit(digits: number[], weight: number): number {
-  const sum = digits.reduce((acc, d) => acc + d * weight--, 0);
-  const rem = sum % 11;
-  return rem < 2 ? 0 : 11 - rem;
+type DocType = "all" | "cpf" | "cnpj_numeric" | "cnpj_alpha";
+type Tab = "generate" | "validate";
+
+interface GeneratedDoc {
+  label: string;
+  formatted: string;
+  raw: string;
+  isAlpha?: boolean;
 }
 
-function generateCpf(): string {
-  const digits = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
-  const d1 = calcCpfDigit(digits, 10);
-  const d2 = calcCpfDigit([...digits, d1], 11);
-  return [...digits, d1, d2].join("");
-}
-
-function formatCpf(cpf: string): string {
-  return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-}
-
-function validateCpf(raw: string): boolean {
-  const cpf = raw.replace(/\D/g, "");
-  if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
-  const digits = cpf.split("").map(Number);
-  const d1 = calcCpfDigit(digits.slice(0, 9), 10);
-  const d2 = calcCpfDigit(digits.slice(0, 10), 11);
-  return digits[9] === d1 && digits[10] === d2;
-}
-
-// --- CNPJ ---
-function calcCnpjDigit(digits: number[], weights: number[]): number {
-  const sum = digits.reduce((acc, d, i) => acc + d * weights[i], 0);
-  const rem = sum % 11;
-  return rem < 2 ? 0 : 11 - rem;
-}
-
-function generateCnpj(): string {
-  const digits = Array.from({ length: 12 }, () => Math.floor(Math.random() * 10));
-  digits[8] = 0; digits[9] = 0; digits[10] = 0; digits[11] = 1;
-  const d1 = calcCnpjDigit(digits, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
-  const d2 = calcCnpjDigit([...digits, d1], [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
-  return [...digits, d1, d2].join("");
-}
-
-function formatCnpj(cnpj: string): string {
-  return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
-}
-
-function validateCnpj(raw: string): boolean {
-  const cnpj = raw.replace(/\D/g, "");
-  if (cnpj.length !== 14 || /^(\d)\1{13}$/.test(cnpj)) return false;
-  const digits = cnpj.split("").map(Number);
-  const d1 = calcCnpjDigit(digits.slice(0, 12), [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
-  const d2 = calcCnpjDigit(digits.slice(0, 13), [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
-  return digits[12] === d1 && digits[13] === d2;
-}
-
-// --- Result Card ---
-function ResultCard({ label, formatted, raw }: { label: string; formatted: string; raw: string }) {
+function ResultCard({ label, formatted, raw, isAlpha, copyText, copyRawText, copiedText }: {
+  label: string;
+  formatted: string;
+  raw: string;
+  isAlpha?: boolean;
+  copyText: string;
+  copyRawText: string;
+  copiedText: string;
+}) {
   const [copiedFormatted, setCopiedFormatted] = useState(false);
   const [copiedRaw, setCopiedRaw] = useState(false);
 
@@ -79,9 +51,19 @@ function ResultCard({ label, formatted, raw }: { label: string; formatted: strin
       className="rounded-xl px-5 py-4 flex items-center justify-between gap-4"
       style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
     >
-      <div className="flex flex-col gap-1">
-        <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>{label}</span>
-        <span className="font-mono text-lg font-semibold tracking-wider" style={{ color: "var(--text)" }}>
+      <div className="flex flex-col gap-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>{label}</span>
+          {isAlpha && (
+            <span
+              className="text-[10px] font-bold px-1.5 py-0.5 rounded-full"
+              style={{ background: "var(--accent)", color: "#fff" }}
+            >
+              NEW
+            </span>
+          )}
+        </div>
+        <span className="font-mono text-lg font-semibold tracking-wider truncate" style={{ color: "var(--text)" }}>
           {formatted}
         </span>
         <button
@@ -89,15 +71,15 @@ function ResultCard({ label, formatted, raw }: { label: string; formatted: strin
           className="text-xs text-left cursor-pointer hover:underline w-fit"
           style={{ color: "var(--text-muted)" }}
         >
-          {copiedRaw ? "Copiado!" : `${raw} — copiar sem máscara`}
+          {copiedRaw ? copiedText : `${raw} — ${copyRawText}`}
         </button>
       </div>
       <button
         onClick={copyFormatted}
-        className="px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity shrink-0"
+        className="px-4 py-2 rounded-lg text-sm font-medium cursor-pointer btn-press shrink-0"
         style={{ background: copiedFormatted ? "var(--success)" : "var(--accent)", color: "#fff" }}
       >
-        {copiedFormatted ? "Copiado!" : "Copiar"}
+        {copiedFormatted ? copiedText : copyText}
       </button>
     </div>
   );
@@ -105,64 +87,131 @@ function ResultCard({ label, formatted, raw }: { label: string; formatted: strin
 
 const QUANTITIES = [1, 5, 10];
 
-type Tab = "gerar" | "validar";
-
 export default function CpfCnpjClient() {
-  const [tab, setTab] = useState<Tab>("gerar");
+  const t = useTranslations("cpfCnpj");
+  const tc = useTranslations("common");
+
+  const [tab, setTab] = useState<Tab>("generate");
   const [qty, setQty] = useState(1);
-  const [results, setResults] = useState<{ label: string; formatted: string; raw: string }[]>([]);
+  const [docType, setDocType] = useState<DocType>("all");
+  const [results, setResults] = useState<GeneratedDoc[]>([]);
   const [validateInput, setValidateInput] = useState("");
-  const [validateResult, setValidateResult] = useState<{ valid: boolean; type: string } | null>(null);
+  const [validateResult, setValidateResult] = useState<{
+    valid: boolean;
+    typeLabel: string;
+  } | null>(null);
 
   const handleGenerate = useCallback(() => {
-    const items = [];
+    const items: GeneratedDoc[] = [];
     for (let i = 0; i < qty; i++) {
-      const cpfRaw = generateCpf();
-      items.push({ label: "CPF", formatted: formatCpf(cpfRaw), raw: cpfRaw });
-      const cnpjRaw = generateCnpj();
-      items.push({ label: "CNPJ", formatted: formatCnpj(cnpjRaw), raw: cnpjRaw });
+      if (docType === "all" || docType === "cpf") {
+        const raw = generateCpf();
+        items.push({ label: t("cpf"), formatted: formatCpf(raw), raw });
+      }
+      if (docType === "all" || docType === "cnpj_numeric") {
+        const raw = generateNumericCnpj();
+        items.push({ label: t("cnpjNumeric"), formatted: formatCnpj(raw), raw });
+      }
+      if (docType === "all" || docType === "cnpj_alpha") {
+        const raw = generateAlphanumericCnpj();
+        items.push({ label: t("cnpjAlpha"), formatted: formatCnpj(raw), raw, isAlpha: true });
+      }
     }
     setResults(items);
-  }, [qty]);
+  }, [qty, docType, t]);
 
   const handleValidate = useCallback(() => {
-    const clean = validateInput.replace(/\D/g, "");
+    const clean = validateInput.replace(/[.\-/\s]/g, "").toUpperCase();
     if (clean.length === 11) {
-      setValidateResult({ valid: validateCpf(clean), type: "CPF" });
+      const valid = validateCpf(clean);
+      setValidateResult({ valid, typeLabel: t("cpf") });
     } else if (clean.length === 14) {
-      setValidateResult({ valid: validateCnpj(clean), type: "CNPJ" });
+      const result = validateCnpjFull(clean);
+      const typeLabel = result.type === "alphanumeric" ? t("cnpjAlpha") : t("cnpjNumeric");
+      setValidateResult({ valid: result.valid, typeLabel });
     } else {
       setValidateResult(null);
     }
-  }, [validateInput]);
+  }, [validateInput, t]);
+
+  const exportJson = () => {
+    const data = results.map((r) => ({ type: r.label, formatted: r.formatted, raw: r.raw }));
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "documents.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const exportCsv = () => {
+    const rows = ["type,formatted,raw", ...results.map((r) => `${r.label},${r.formatted},${r.raw}`)];
+    const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "documents.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const DOC_TYPES: { value: DocType; label: string }[] = [
+    { value: "all", label: t("allTypes") },
+    { value: "cpf", label: t("cpf") },
+    { value: "cnpj_numeric", label: t("cnpjNumeric") },
+    { value: "cnpj_alpha", label: t("cnpjAlpha") },
+  ];
 
   return (
     <div className="flex flex-col gap-6">
       {/* Tabs */}
       <div className="flex rounded-xl p-1 gap-1 w-fit" style={{ background: "var(--surface)" }}>
-        {(["gerar", "validar"] as Tab[]).map((t) => (
+        {(["generate", "validate"] as Tab[]).map((tabKey) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
-            className="px-6 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all capitalize"
+            key={tabKey}
+            onClick={() => setTab(tabKey)}
+            className="px-6 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all"
             style={{
-              background: tab === t ? "var(--accent)" : "transparent",
-              color: tab === t ? "#fff" : "var(--text-muted)",
+              background: tab === tabKey ? "var(--accent)" : "transparent",
+              color: tab === tabKey ? "#fff" : "var(--text-muted)",
             }}
           >
-            {t === "gerar" ? "Gerar" : "Validar"}
+            {tabKey === "generate" ? t("generateTab") : t("validateTab")}
           </button>
         ))}
       </div>
 
-      {/* Gerar */}
-      {tab === "gerar" && (
+      {/* Generate Tab */}
+      {tab === "generate" && (
         <div className="flex flex-col gap-5">
-          <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex flex-wrap gap-4">
+            {/* Document type selector */}
             <div className="flex flex-col gap-1">
-              <span className="text-xs" style={{ color: "var(--text-muted)" }}>Quantidade de cada</span>
+              <span className="text-xs" style={{ color: "var(--text-muted)" }}>{t("typeLabel")}</span>
               <div className="flex rounded-lg overflow-hidden" style={{ border: "1px solid var(--border)" }}>
-                {QUANTITIES.map((q) => (
+                {DOC_TYPES.map((dt, idx) => (
+                  <button
+                    key={dt.value}
+                    onClick={() => setDocType(dt.value)}
+                    className="px-4 py-2 text-xs font-medium cursor-pointer transition-colors whitespace-nowrap"
+                    style={{
+                      background: docType === dt.value ? "var(--accent)" : "var(--surface)",
+                      color: docType === dt.value ? "#fff" : "var(--text-muted)",
+                      borderRight: idx < DOC_TYPES.length - 1 ? "1px solid var(--border)" : "none",
+                    }}
+                  >
+                    {dt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quantity selector */}
+            <div className="flex flex-col gap-1">
+              <span className="text-xs" style={{ color: "var(--text-muted)" }}>{t("quantity")}</span>
+              <div className="flex rounded-lg overflow-hidden" style={{ border: "1px solid var(--border)" }}>
+                {QUANTITIES.map((q, idx) => (
                   <button
                     key={q}
                     onClick={() => setQty(q)}
@@ -170,7 +219,7 @@ export default function CpfCnpjClient() {
                     style={{
                       background: qty === q ? "var(--accent)" : "var(--surface)",
                       color: qty === q ? "#fff" : "var(--text-muted)",
-                      borderRight: q !== 10 ? "1px solid var(--border)" : "none",
+                      borderRight: idx < QUANTITIES.length - 1 ? "1px solid var(--border)" : "none",
                     }}
                   >
                     {q}
@@ -178,41 +227,65 @@ export default function CpfCnpjClient() {
                 ))}
               </div>
             </div>
+
             <button
               onClick={handleGenerate}
-              className="px-6 py-2.5 rounded-lg font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity self-end"
+              className="px-6 py-2 rounded-lg font-medium text-sm cursor-pointer btn-press self-end"
               style={{ background: "var(--accent)", color: "#fff" }}
             >
-              Gerar
+              {t("generateButton")}
             </button>
           </div>
 
           {results.length > 0 && (
-            <div className="flex flex-col gap-3">
-              {results.map((r, i) => (
-                <ResultCard key={i} label={r.label} formatted={r.formatted} raw={r.raw} />
-              ))}
-            </div>
+            <>
+              <div className="flex flex-col gap-3">
+                {results.map((r, i) => (
+                  <ResultCard
+                    key={i}
+                    label={r.label}
+                    formatted={r.formatted}
+                    raw={r.raw}
+                    isAlpha={r.isAlpha}
+                    copyText={t("copyFormatted")}
+                    copyRawText={t("copyWithoutMask")}
+                    copiedText={tc("copied")}
+                  />
+                ))}
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                <button
+                  onClick={exportJson}
+                  className="px-4 py-2 rounded-lg text-sm font-medium cursor-pointer btn-press"
+                  style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
+                >
+                  {t("exportJson")}
+                </button>
+                <button
+                  onClick={exportCsv}
+                  className="px-4 py-2 rounded-lg text-sm font-medium cursor-pointer btn-press"
+                  style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
+                >
+                  {t("exportCsv")}
+                </button>
+              </div>
+            </>
           )}
 
           {results.length === 0 && (
-            <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-              Clique em "Gerar" para criar os números.
-            </p>
+            <p className="text-sm" style={{ color: "var(--text-muted)" }}>{t("noResultsHint")}</p>
           )}
         </div>
       )}
 
-      {/* Validar */}
-      {tab === "validar" && (
+      {/* Validate Tab */}
+      {tab === "validate" && (
         <div className="flex flex-col gap-4">
-          <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-            Cole um CPF ou CNPJ abaixo — com ou sem formatação.
-          </p>
+          <p className="text-sm" style={{ color: "var(--text-muted)" }}>{t("pasteHint")}</p>
           <div className="flex gap-2">
             <input
               type="text"
-              className="flex-1 rounded-lg px-4 py-3 font-mono text-base outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 rounded-lg px-4 py-3 font-mono text-base outline-none"
               style={{ background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text)" }}
               placeholder="000.000.000-00 ou 00.000.000/0001-00"
               value={validateInput}
@@ -221,10 +294,10 @@ export default function CpfCnpjClient() {
             />
             <button
               onClick={handleValidate}
-              className="px-5 py-3 rounded-lg font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
+              className="px-5 py-3 rounded-lg font-medium text-sm cursor-pointer btn-press"
               style={{ background: "var(--accent)", color: "#fff" }}
             >
-              Validar
+              {tc("validate")}
             </button>
           </div>
 
@@ -239,7 +312,8 @@ export default function CpfCnpjClient() {
             >
               <span className="text-lg">{validateResult.valid ? "✓" : "✕"}</span>
               <span>
-                {validateResult.type} {validateResult.valid ? "válido" : "inválido"}
+                {validateResult.typeLabel}{" "}
+                {validateResult.valid ? t("validResult") : t("invalidResult")}
               </span>
             </div>
           )}

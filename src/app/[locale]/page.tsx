@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { siteConfig } from "@/lib/config";
 
 type Locale = "en" | "pt";
 
@@ -184,7 +185,24 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DevBox Tools",
+    "url": siteConfig.url,
+    "description": t("subtitle"),
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${siteConfig.url}/${locale}`,
+    },
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     <div className="max-w-5xl mx-auto px-4 py-16">
       <h1 className="text-4xl font-bold mb-3">{t("title")}</h1>
       <p className="text-lg mb-14" style={{ color: "var(--text-muted)" }}>
@@ -225,5 +243,6 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         </div>
       </section>
     </div>
+    </>
   );
 }

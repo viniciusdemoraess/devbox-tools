@@ -6,8 +6,10 @@ import { notFound } from "next/navigation";
 import Script from "next/script";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { siteConfig } from "@/lib/config";
 import Sidebar from "@/components/Sidebar";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import Footer from "@/components/Footer";
 import "../globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -15,9 +17,21 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: { default: "DevBox Tools", template: "%s | DevBox Tools" },
-  description: "Free online developer tools — JSON formatter, YAML validator, regex tester, and more.",
-  metadataBase: new URL("https://devbox-tools-puce.vercel.app"),
+  description: "Free online developer tools — JSON formatter, YAML validator, regex tester, CPF/CNPJ generator, and more. Everything runs in your browser.",
+  metadataBase: new URL(siteConfig.url),
   verification: { google: "CC28w4J744vKnS9WrFRMTJ76swP3pdwuQvfzXpaRnxI" },
+  openGraph: {
+    type: "website",
+    siteName: "DevBox Tools",
+    title: "DevBox Tools — Free Developer Utilities",
+    description: "Free, fast, and private developer tools. JSON formatter, YAML validator, regex tester, CPF/CNPJ generator, and more.",
+    url: siteConfig.url,
+  },
+  twitter: {
+    card: "summary",
+    title: "DevBox Tools — Free Developer Utilities",
+    description: "Free, fast, and private developer tools. Everything runs in your browser.",
+  },
 };
 
 export function generateStaticParams() {
@@ -58,9 +72,7 @@ export default async function LocaleLayout({
 
           <main className="flex-1">{children}</main>
 
-          <footer className="text-center text-xs py-4" style={{ color: "var(--text-muted)", borderTop: "1px solid var(--border)" }}>
-            © {new Date().getFullYear()} DevBox Tools — Free developer utilities
-          </footer>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

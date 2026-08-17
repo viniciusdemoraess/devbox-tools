@@ -55,10 +55,9 @@ export default function TimestampClient() {
   const [input, setInput] = useState("");
   const [results, setResults] = useState<{ label: string; value: string }[] | null>(null);
   const [error, setError] = useState("");
-  const [now, setNow] = useState(0);
+  const [now, setNow] = useState(() => Math.floor(Date.now() / 1000));
 
   useEffect(() => {
-    setNow(Math.floor(Date.now() / 1000));
     const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000);
     return () => clearInterval(interval);
   }, []);
