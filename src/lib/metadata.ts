@@ -26,11 +26,20 @@ export function pageMetadata(
       description,
       url: canonical,
       locale: locale === "pt" ? "pt_BR" : "en_US",
+      images: [
+        {
+          url: `${base}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: "DevBox Tools — Ferramentas Online para Desenvolvedores e QA",
+        },
+      ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
+      images: [`${base}/og-image.png`],
     },
   };
 }

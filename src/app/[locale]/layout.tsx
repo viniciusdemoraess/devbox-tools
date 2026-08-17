@@ -26,11 +26,20 @@ export const metadata: Metadata = {
     title: "DevBox Tools — Ferramentas Online para Desenvolvedores e QA",
     description: "Ferramentas gratuitas, rápidas e privadas para devs. JSON, YAML, regex, diff, CPF/CNPJ e muito mais.",
     url: siteConfig.url,
+    images: [
+      {
+        url: `${siteConfig.url.replace(/\/$/, "")}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "DevBox Tools — Ferramentas Online para Desenvolvedores e QA",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "DevBox Tools — Ferramentas Online para Devs",
     description: "Ferramentas gratuitas, rápidas e privadas para desenvolvedores. Tudo roda no navegador.",
+    images: [`${siteConfig.url.replace(/\/$/, "")}/og-image.png`],
   },
 };
 
