@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     images: [
       {
-        url: `${siteConfig.url.replace(/\/$/, "")}/og-image.png`,
+        url: `${siteConfig.url.replace(/\/$/, "")}/opengraph-image`,
         width: 1200,
         height: 630,
         alt: "DevBox Tools — Ferramentas Online para Desenvolvedores e QA",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DevBox Tools — Ferramentas Online para Devs",
     description: "Ferramentas gratuitas, rápidas e privadas para desenvolvedores. Tudo roda no navegador.",
-    images: [`${siteConfig.url.replace(/\/$/, "")}/og-image.png`],
+    images: [`${siteConfig.url.replace(/\/$/, "")}/opengraph-image`],
   },
 };
 

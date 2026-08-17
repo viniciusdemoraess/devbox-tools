@@ -28,7 +28,7 @@ export function pageMetadata(
       locale: locale === "pt" ? "pt_BR" : "en_US",
       images: [
         {
-          url: `${base}/og-image.png`,
+          url: `${base}/opengraph-image`,
           width: 1200,
           height: 630,
           alt: "DevBox Tools — Ferramentas Online para Desenvolvedores e QA",
@@ -39,7 +39,7 @@ export function pageMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [`${base}/og-image.png`],
+      images: [`${base}/opengraph-image`],
     },
   };
 }

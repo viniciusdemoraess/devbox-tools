@@ -1,22 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useDeferredValue } from "react";
 import { useTranslations } from "next-intl";
 
+const WPM = 238;
+
 function analyze(text: string) {
-  const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+  if (text.trim() === "") {
+    return { words: 0, chars: 0, charsNoSpaces: 0, sentences: 0, paragraphs: 0, readingMins: 0 };
+  }
+  const words = text.trim().split(/\s+/).length;
   const chars = text.length;
   const charsNoSpaces = text.replace(/\s/g, "").length;
-  const sentences = text.trim() === "" ? 0 : (text.match(/[^.!?]*[.!?]+/g) ?? []).length;
-  const paragraphs = text.trim() === "" ? 0 : text.split(/\n\s*\n/).filter((p) => p.trim()).length;
-  const readingTime = Math.ceil(words / 200);
-  return { words, chars, charsNoSpaces, sentences, paragraphs, readingTime };
+  const sentences = (text.match(/[^.!?]*[.!?]+/g) ?? []).length;
+  const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim()).length;
+  const readingMins = words / WPM;
+  return { words, chars, charsNoSpaces, sentences, paragraphs, readingMins };
 }
 
 export default function WordCounterClient() {
   const t = useTranslations("wordCounter");
   const [text, setText] = useState("");
-  const stats = analyze(text);
+
+  // useDeferredValue keeps the textarea responsive even for large pastes —
+  // React defers the expensive analyze() call while the input updates immediately.
+  const deferredText = useDeferredValue(text);
+  const isStale = text !== deferredText;
+  const stats = analyze(deferredText);
+
+  function readingTimeLabel(): string {
+    if (stats.readingMins === 0) return "—";
+    if (stats.readingMins < 1) return t("readingTimeLessMin");
+    return t("readingTimeValue", { min: Math.ceil(stats.readingMins) });
+  }
 
   const statItems = [
     { key: "words",         value: stats.words },
@@ -24,7 +40,7 @@ export default function WordCounterClient() {
     { key: "charsNoSpaces", value: stats.charsNoSpaces },
     { key: "sentences",     value: stats.sentences },
     { key: "paragraphs",    value: stats.paragraphs },
-    { key: "readingTime",   value: stats.readingTime === 0 ? "—" : t("readingTimeValue", { min: stats.readingTime }) },
+    { key: "readingTime",   value: readingTimeLabel() },
   ] as const;
 
   return (
@@ -36,7 +52,10 @@ export default function WordCounterClient() {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div
+        className="grid grid-cols-2 sm:grid-cols-3 gap-3 transition-opacity duration-150"
+        style={{ opacity: isStale ? 0.5 : 1 }}
+      >
         {statItems.map((s) => (
           <div key={s.key} className="rounded-xl px-4 py-3 flex flex-col gap-1" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
             <span className="text-xs" style={{ color: "var(--text-muted)" }}>{t(s.key)}</span>
@@ -45,8 +64,11 @@ export default function WordCounterClient() {
         ))}
       </div>
       {text && (
-        <button onClick={() => setText("")} className="w-fit px-5 py-2 rounded-lg text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity"
-          style={{ background: "var(--surface)", color: "var(--text-muted)", border: "1px solid var(--border)" }}>
+        <button
+          onClick={() => setText("")}
+          className="w-fit px-5 py-2 rounded-lg text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity"
+          style={{ background: "var(--surface)", color: "var(--text-muted)", border: "1px solid var(--border)" }}
+        >
           {t("clearBtn")}
         </button>
       )}

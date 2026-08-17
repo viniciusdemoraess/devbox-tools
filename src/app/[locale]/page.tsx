@@ -210,6 +210,19 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         {t("subtitle")}
       </p>
 
+      <section className="mb-10">
+        <h2 className="text-xs font-semibold uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: "var(--text-muted)" }}>
+          {t("featured")}
+          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: "var(--accent)", color: "#fff", textTransform: "none", letterSpacing: "normal" }}>
+            ↑
+          </span>
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <ToolCard toolKey="cpfCnpj"           href={toolHrefs["cpfCnpj"]}           title={t("cpfCnpj.title")}           description={t("cpfCnpj.description")} />
+          <ToolCard toolKey="timestampConverter" href={toolHrefs["timestampConverter"]} title={t("timestampConverter.title")} description={t("timestampConverter.description")} />
+        </div>
+      </section>
+
       <section className="mb-12">
         <h2 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "var(--text-muted)" }}>
           {t("developer")}

@@ -14,6 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   return pageMetadata(locale, "cpf-cnpj-generator", t("metaTitle"), t("metaDescription"));
 }
 
+const faqKeys = ["faq1", "faq2", "faq3", "faq4", "faq5"] as const;
+
 export default async function Page({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "cpfCnpj" });
@@ -23,18 +25,31 @@ export default async function Page({ params }: { params: Promise<{ locale: Local
       <p className="mb-8" style={{ color: "var(--text-muted)" }}>{t("description")}</p>
       <CpfCnpjClient />
       <div className="mt-12 flex flex-col gap-8 max-w-3xl">
-        <section>
-          <h2 className="text-xl font-semibold mb-2">{t("howToUseTitle")}</h2>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">{t("howToUseTitle")}</h2>
           <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{t("howToUse")}</p>
         </section>
-        <section>
-          <h2 className="text-xl font-semibold mb-2">{t("algorithmTitle")}</h2>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">{t("algorithmTitle")}</h2>
           <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{t("algorithmText")}</p>
         </section>
-        <section>
-          <h2 className="text-xl font-semibold mb-2">{t("aboutTitle")}</h2>
+        <section className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">{t("aboutTitle")}</h2>
           <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{t("aboutText")}</p>
         </section>
+
+        <section className="flex flex-col gap-4">
+          <h2 className="text-xl font-semibold">{t("faqTitle")}</h2>
+          <dl className="flex flex-col gap-4">
+            {faqKeys.map((n) => (
+              <div key={n} className="rounded-xl p-5 flex flex-col gap-2" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
+                <dt className="text-sm font-semibold" style={{ color: "var(--text)" }}>{t(`${n}Q`)}</dt>
+                <dd className="text-sm leading-relaxed m-0" style={{ color: "var(--text-muted)" }}>{t(`${n}A`)}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
         <p className="text-xs" style={{ color: "var(--text-muted)" }}>🔒 {t("privacyNote")}</p>
       </div>
     </div>
