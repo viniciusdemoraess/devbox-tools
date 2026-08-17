@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { diffLines, Change } from "diff";
+import { useTranslations } from "next-intl";
 
 function DiffView({ changes }: { changes: Change[] }) {
   let oldLine = 1;
@@ -61,6 +62,8 @@ function DiffView({ changes }: { changes: Change[] }) {
 }
 
 export default function TextDiffClient() {
+  const t = useTranslations("textDiff");
+  const tCommon = useTranslations("common");
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
   const [changes, setChanges] = useState<Change[] | null>(null);
@@ -86,7 +89,7 @@ export default function TextDiffClient() {
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>Original</label>
+          <label className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>{t("original")}</label>
           <textarea
             className="w-full h-64 rounded-lg p-3 font-mono text-sm resize-y outline-none focus:ring-2 focus:ring-indigo-500"
             style={{ background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text)", minHeight: "200px" }}
@@ -97,7 +100,7 @@ export default function TextDiffClient() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>Modified</label>
+          <label className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>{t("modified")}</label>
           <textarea
             className="w-full h-64 rounded-lg p-3 font-mono text-sm resize-y outline-none focus:ring-2 focus:ring-indigo-500"
             style={{ background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text)", minHeight: "200px" }}
@@ -115,22 +118,22 @@ export default function TextDiffClient() {
           className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
           style={{ background: "var(--accent)", color: "#fff" }}
         >
-          Compare
+          {tCommon("compare")}
         </button>
         <button
           onClick={handleClear}
           className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-80 transition-opacity"
           style={{ background: "var(--surface)", color: "var(--text)", border: "1px solid var(--border)" }}
         >
-          Clear
+          {tCommon("clear")}
         </button>
         {changes && (
           <div className="flex gap-3 text-sm ml-2">
             <span className="px-2 py-0.5 rounded" style={{ background: "var(--success-bg)", color: "var(--success)" }}>
-              +{stats.added} added
+              +{stats.added} {t("added")}
             </span>
             <span className="px-2 py-0.5 rounded" style={{ background: "var(--error-bg)", color: "var(--error)" }}>
-              −{stats.removed} removed
+              −{stats.removed} {t("removed")}
             </span>
           </div>
         )}

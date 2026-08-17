@@ -102,6 +102,13 @@ export default async function CnpjAlfanumericoPage() {
           <p className="text-sm" style={{ color: "var(--text-muted)" }}>{t("exampleD1")}</p>
           <p className="text-sm" style={{ color: "var(--text-muted)" }}>{t("exampleD2")}</p>
         </div>
+        <div
+          className="font-mono text-sm text-center py-3 rounded-xl tracking-widest"
+          style={{ background: "var(--surface-2)", color: "var(--text-muted)" }}
+        >
+          12.ABC.345/01DE-35
+        </div>
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>{t("exampleOfficialFull")}</p>
       </section>
 
       {/* Systems */}

@@ -7,12 +7,13 @@ import {
   formatCpf,
   generateNumericCnpj,
   generateAlphanumericCnpj,
+  generateFullAlphanumericCnpj,
   formatCnpj,
   validateCpf,
   validateCnpjFull,
 } from "@/lib/cpf-cnpj";
 
-type DocType = "all" | "cpf" | "cnpj_numeric" | "cnpj_alpha";
+type DocType = "all" | "cpf" | "cnpj_numeric" | "cnpj_alpha" | "cnpj_alpha_full";
 type Tab = "generate" | "validate";
 
 interface GeneratedDoc {
@@ -116,6 +117,10 @@ export default function CpfCnpjClient() {
         const raw = generateAlphanumericCnpj();
         items.push({ label: t("cnpjAlpha"), formatted: formatCnpj(raw), raw, isAlpha: true });
       }
+      if (docType === "cnpj_alpha_full") {
+        const raw = generateFullAlphanumericCnpj();
+        items.push({ label: t("cnpjAlphaFull"), formatted: formatCnpj(raw), raw, isAlpha: true });
+      }
     }
     setResults(items);
   }, [qty, docType, t]);
@@ -161,6 +166,7 @@ export default function CpfCnpjClient() {
     { value: "cpf", label: t("cpf") },
     { value: "cnpj_numeric", label: t("cnpjNumeric") },
     { value: "cnpj_alpha", label: t("cnpjAlpha") },
+    { value: "cnpj_alpha_full", label: t("cnpjAlphaFull") },
   ];
 
   return (

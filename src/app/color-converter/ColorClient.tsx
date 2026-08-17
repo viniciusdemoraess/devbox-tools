@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 function hexToRgb(hex: string): [number, number, number] | null {
   const clean = hex.replace("#", "");
@@ -38,18 +39,19 @@ function rgbToHex(r: number, g: number, b: number): string {
   return "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("");
 }
 
-function CopyBtn({ text }: { text: string }) {
+function CopyBtn({ text, copyLabel, copiedLabel }: { text: string; copyLabel: string; copiedLabel: string }) {
   const [c, setC] = useState(false);
   return (
     <button onClick={() => { navigator.clipboard.writeText(text); setC(true); setTimeout(() => setC(false), 2000); }}
       className="text-xs px-2 py-0.5 rounded cursor-pointer hover:opacity-80"
       style={{ background: "var(--surface-2)", color: "var(--text-muted)", border: "1px solid var(--border)" }}>
-      {c ? "✓" : "Copy"}
+      {c ? copiedLabel : copyLabel}
     </button>
   );
 }
 
 export default function ColorClient() {
+  const t = useTranslations("colorConverter");
   const [hex, setHex] = useState("#6366f1");
   const [error, setError] = useState("");
 
@@ -58,23 +60,23 @@ export default function ColorClient() {
 
   const handleHex = (v: string) => {
     setHex(v);
-    setError(hexToRgb(v) ? "" : "Invalid HEX color");
+    setError(hexToRgb(v) ? "" : t("invalidHex"));
   };
 
   const handleRgb = useCallback((r: string, g: string, b: string) => {
     const rv = Number(r), gv = Number(g), bv = Number(b);
-    if ([rv, gv, bv].some((n) => isNaN(n) || n < 0 || n > 255)) { setError("RGB values must be 0–255"); return; }
+    if ([rv, gv, bv].some((n) => isNaN(n) || n < 0 || n > 255)) { setError(t("invalidRgb")); return; }
     setHex(rgbToHex(rv, gv, bv));
     setError("");
-  }, []);
+  }, [t]);
 
   const handleHsl = useCallback((h: string, s: string, l: string) => {
     const hv = Number(h), sv = Number(s), lv = Number(l);
-    if (isNaN(hv) || isNaN(sv) || isNaN(lv)) { setError("Invalid HSL values"); return; }
+    if (isNaN(hv) || isNaN(sv) || isNaN(lv)) { setError(t("invalidHsl")); return; }
     const [r, g, b] = hslToRgb(hv, sv, lv);
     setHex(rgbToHex(r, g, b));
     setError("");
-  }, []);
+  }, [t]);
 
   const hexStr = hex;
   const rgbStr = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
@@ -89,7 +91,7 @@ export default function ColorClient() {
         <div className="rounded-xl p-4 flex flex-col gap-2" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>HEX</span>
-            <CopyBtn text={hexStr} />
+            <CopyBtn text={hexStr} copyLabel={t("copy")} copiedLabel={t("copied")} />
           </div>
           <div className="flex items-center gap-3">
             <input type="color" value={hex} onChange={(e) => handleHex(e.target.value)} className="w-10 h-10 rounded cursor-pointer border-0 bg-transparent" />
@@ -103,7 +105,7 @@ export default function ColorClient() {
         <div className="rounded-xl p-4 flex flex-col gap-2" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>RGB</span>
-            <CopyBtn text={rgbStr} />
+            <CopyBtn text={rgbStr} copyLabel={t("copy")} copiedLabel={t("copied")} />
           </div>
           <div className="grid grid-cols-3 gap-2">
             {["R", "G", "B"].map((ch, i) => (
@@ -122,7 +124,7 @@ export default function ColorClient() {
         <div className="rounded-xl p-4 flex flex-col gap-2" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>HSL</span>
-            <CopyBtn text={hslStr} />
+            <CopyBtn text={hslStr} copyLabel={t("copy")} copiedLabel={t("copied")} />
           </div>
           <div className="grid grid-cols-3 gap-2">
             {[["H", "0–360"], ["S", "0–100"], ["L", "0–100"]].map(([ch, range], i) => (

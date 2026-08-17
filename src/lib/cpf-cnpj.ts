@@ -55,15 +55,43 @@ export function generateNumericCnpj(): string {
   return [...base, String(d1), String(d2)].join("");
 }
 
-const ALPHANUM_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const ALPHANUM_CHARS = LETTERS + "0123456789";
 
+function randomAlphanum(): string {
+  return ALPHANUM_CHARS[Math.floor(Math.random() * ALPHANUM_CHARS.length)];
+}
+
+function ensureAtLeastOneLetter(chars: string[]): string[] {
+  const result = [...chars];
+  if (!/[A-Z]/.test(result.join(""))) {
+    const pos = Math.floor(Math.random() * result.length);
+    result[pos] = LETTERS[Math.floor(Math.random() * LETTERS.length)];
+  }
+  return result;
+}
+
+// Numeric root (positions 0–7) + alphanumeric branch (positions 8–11)
+// Mirrors what existing companies get when issued new branch numbers
 export function generateAlphanumericCnpj(): string {
-  // Root (positions 0-7): numeric digits
-  // Branch (positions 8-11): alphanumeric — ensures at least one letter
+  const branchChars = ensureAtLeastOneLetter(
+    Array.from({ length: 4 }, randomAlphanum)
+  );
   const base: string[] = [
     ...Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 10))),
-    ...Array.from({ length: 4 }, () => ALPHANUM_CHARS[Math.floor(Math.random() * ALPHANUM_CHARS.length)]),
+    ...branchChars,
   ];
+  const d1 = calcCnpjDigit(base, W1);
+  const d2 = calcCnpjDigit([...base, String(d1)], W2);
+  return [...base, String(d1), String(d2)].join("");
+}
+
+// Fully alphanumeric — all 12 base positions can contain letters or digits
+// Matches the spec for new root assignments (e.g. 12.ABC.345/01DE-35)
+export function generateFullAlphanumericCnpj(): string {
+  const base = ensureAtLeastOneLetter(
+    Array.from({ length: 12 }, randomAlphanum)
+  );
   const d1 = calcCnpjDigit(base, W1);
   const d2 = calcCnpjDigit([...base, String(d1)], W2);
   return [...base, String(d1), String(d2)].join("");

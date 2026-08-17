@@ -36,23 +36,65 @@
   },
   "home": {
     "title": "Developer Tools, Simplified",
-    "subtitle": "Free, fast, and privacy-friendly. Everything runs in your browser — nothing is sent to a server.",
+    "subtitle": "Free, fast, and private. Tool inputs are processed in your browser — never sent to a server.",
     "developer": "Developer",
     "utilities": "Utilities",
-    "jsonFormatter": { "title": "JSON Formatter", "description": "Format and validate JSON with error highlighting." },
-    "yamlValidator": { "title": "YAML Validator", "description": "Validate and format YAML with line/column errors." },
-    "textDiff": { "title": "Text Diff", "description": "Compare two texts and highlight every change." },
-    "encoderDecoder": { "title": "Base64 / URL / JWT", "description": "Encode, decode Base64, URL strings, and JWT tokens." },
-    "regexTester": { "title": "Regex Tester", "description": "Test regular expressions with real-time match highlighting." },
-    "gitignoreGenerator": { "title": ".gitignore Generator", "description": "Generate .gitignore for any stack with one click." },
-    "timestampConverter": { "title": "Timestamp Converter", "description": "Convert Unix timestamps to readable dates and back." },
-    "passwordGenerator": { "title": "Password Generator", "description": "Generate strong, secure random passwords." },
-    "colorConverter": { "title": "Color Converter", "description": "Convert between HEX, RGB, and HSL color formats." },
-    "cpfCnpj": { "title": "CPF / CNPJ", "description": "Generate and validate CPF and CNPJ for software testing." },
-    "wordCounter": { "title": "Word Counter", "description": "Count words, characters, and get estimated reading time." },
-    "unitConverter": { "title": "Unit Converter", "description": "Convert length, weight, temperature, and volume." },
-    "bmiCalculator": { "title": "BMI Calculator", "description": "Calculate Body Mass Index with metric or imperial units." },
-    "compoundInterest": { "title": "Compound Interest", "description": "Calculate investment growth with compound interest." }
+    "jsonFormatter": {
+      "title": "JSON Formatter",
+      "description": "Format and validate JSON with error highlighting."
+    },
+    "yamlValidator": {
+      "title": "YAML Validator",
+      "description": "Validate and format YAML with line/column errors."
+    },
+    "textDiff": {
+      "title": "Text Diff",
+      "description": "Compare two texts and highlight every change."
+    },
+    "encoderDecoder": {
+      "title": "Base64 / URL / JWT",
+      "description": "Encode, decode Base64, URL strings, and JWT tokens."
+    },
+    "regexTester": {
+      "title": "Regex Tester",
+      "description": "Test regular expressions with real-time match highlighting."
+    },
+    "gitignoreGenerator": {
+      "title": ".gitignore Generator",
+      "description": "Generate .gitignore for any stack with one click."
+    },
+    "timestampConverter": {
+      "title": "Timestamp Converter",
+      "description": "Convert Unix timestamps to readable dates and back."
+    },
+    "passwordGenerator": {
+      "title": "Password Generator",
+      "description": "Generate strong, secure random passwords."
+    },
+    "colorConverter": {
+      "title": "Color Converter",
+      "description": "Convert between HEX, RGB, and HSL color formats."
+    },
+    "cpfCnpj": {
+      "title": "CPF / CNPJ",
+      "description": "Generate and validate CPF and CNPJ for software testing."
+    },
+    "wordCounter": {
+      "title": "Word Counter",
+      "description": "Count words, characters, and get estimated reading time."
+    },
+    "unitConverter": {
+      "title": "Unit Converter",
+      "description": "Convert length, weight, temperature, and volume."
+    },
+    "bmiCalculator": {
+      "title": "BMI Calculator",
+      "description": "Calculate Body Mass Index with metric or imperial units."
+    },
+    "compoundInterest": {
+      "title": "Compound Interest",
+      "description": "Calculate investment growth with compound interest."
+    }
   },
   "jsonFormatter": {
     "metaTitle": "JSON Formatter & Validator Online — Free",
@@ -94,7 +136,18 @@
     "jwtWarning": "Signature is not verified — this tool only decodes the token, it does not validate it.",
     "header": "Header",
     "payload": "Payload",
-    "signature": "Signature"
+    "signature": "Signature",
+    "input": "Input",
+    "output": "Output",
+    "outputPlaceholder": "Output will appear here...",
+    "jwtToken": "JWT Token",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "clear": "Clear",
+    "errorEncoding": "Encoding failed",
+    "errorBase64": "Invalid Base64 string",
+    "errorUrl": "Invalid URL-encoded string",
+    "errorJwt": "Invalid JWT: must have 3 parts separated by dots"
   },
   "regexTester": {
     "metaTitle": "Regex Tester Online — Test Regular Expressions Free",
@@ -107,7 +160,14 @@
     "highlightedLabel": "Matches highlighted",
     "detailsLabel": "Match details",
     "noMatches": "No matches",
-    "examples": "Examples"
+    "examples": "Examples",
+    "flagGlobal": "Global — find all matches",
+    "flagCaseInsensitive": "Case insensitive",
+    "flagMultiline": "Multiline",
+    "flagDotAll": "Dot matches newline",
+    "matchCount": "{count, plural, one {# match} other {# matches}}",
+    "matchIndex": "index {index}",
+    "moreMatches": "…and {count} more matches"
   },
   "gitignoreGenerator": {
     "metaTitle": ".gitignore Generator Online — Free",
@@ -120,7 +180,10 @@
     "editors": "Editors",
     "tools": "Tools",
     "placeholder": "Select one or more options above to generate your .gitignore file.",
-    "downloadGitignore": "Download .gitignore"
+    "downloadGitignore": "Download .gitignore",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "clear": "Clear"
   },
   "timestampConverter": {
     "metaTitle": "Unix Timestamp Converter — Epoch to Date Online Free",
@@ -133,7 +196,27 @@
     "inputHint": "Accepts Unix timestamps (seconds or milliseconds) or date strings (ISO 8601, YYYY-MM-DD, etc.)",
     "results": "Results",
     "aboutTitle": "About Unix Timestamps",
-    "aboutText": "A Unix timestamp (also called Epoch time) is the number of seconds elapsed since January 1, 1970 00:00:00 UTC. It is widely used in APIs, databases, and log files."
+    "aboutText": "A Unix timestamp (also called Epoch time) is the number of seconds elapsed since January 1, 1970 00:00:00 UTC. It is widely used in APIs, databases, and log files.",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "clear": "Clear",
+    "inputError": "Invalid timestamp or date. Enter a Unix timestamp (e.g. 1700000000) or a date (e.g. 2024-01-15).",
+    "unixSeconds": "Unix Timestamp (seconds)",
+    "unixMillis": "Unix Timestamp (milliseconds)",
+    "iso8601": "ISO 8601",
+    "utc": "UTC",
+    "localTime": "Local Time",
+    "dateOnly": "Date only",
+    "timeOnly": "Time only",
+    "relative": "Relative",
+    "secondsAgo": "{n} seconds ago",
+    "inSeconds": "in {n} seconds",
+    "minutesAgo": "{n} minutes ago",
+    "inMinutes": "in {n} minutes",
+    "hoursAgo": "{n} hours ago",
+    "inHours": "in {n} hours",
+    "daysAgo": "{n} days ago",
+    "inDays": "in {n} days"
   },
   "passwordGenerator": {
     "metaTitle": "Password Generator Online — Strong & Secure Free",
@@ -148,13 +231,20 @@
     "generatePasswords": "Generate Passwords",
     "weak": "Weak",
     "medium": "Medium",
-    "strong": "Strong"
+    "strong": "Strong",
+    "copy": "Copy",
+    "copied": "Copied!"
   },
   "colorConverter": {
     "metaTitle": "Color Converter HEX to RGB to HSL Online — Free",
     "metaDescription": "Convert colors between HEX, RGB, and HSL formats instantly. Pick a color or type any value to see all formats at once.",
     "title": "Color Converter",
-    "description": "Convert between HEX, RGB, and HSL color formats instantly."
+    "description": "Convert between HEX, RGB, and HSL color formats instantly.",
+    "copy": "Copy",
+    "copied": "✓",
+    "invalidHex": "Invalid HEX color",
+    "invalidRgb": "RGB values must be 0–255",
+    "invalidHsl": "Invalid HSL values"
   },
   "cpfCnpj": {
     "metaTitle": "CPF and CNPJ Generator for Testing — Free Online",
@@ -169,7 +259,8 @@
     "allTypes": "All",
     "cpf": "CPF",
     "cnpjNumeric": "CNPJ (numeric)",
-    "cnpjAlpha": "CNPJ (alphanumeric)",
+    "cnpjAlpha": "CNPJ alpha — numeric root",
+    "cnpjAlphaFull": "CNPJ alpha — full (12 positions)",
     "placeholder": "Enter a CPF or CNPJ (with or without formatting)",
     "pasteHint": "Paste a CPF or CNPJ below — with or without formatting.",
     "copyFormatted": "Copy",
@@ -195,7 +286,8 @@
     "paragraphs": "Paragraphs",
     "readingTime": "Reading Time",
     "placeholder": "Paste or type your text here...",
-    "clearBtn": "Clear"
+    "clearBtn": "Clear",
+    "readingTimeValue": "~{min} min"
   },
   "unitConverter": {
     "metaTitle": "Unit Converter Online — Length, Weight, Temperature Free",
@@ -208,7 +300,32 @@
     "weight": "Weight",
     "temperature": "Temperature",
     "volume": "Volume",
-    "enterValue": "Enter value"
+    "enterValue": "Enter value",
+    "meter": "Meter (m)",
+    "kilometer": "Kilometer (km)",
+    "centimeter": "Centimeter (cm)",
+    "millimeter": "Millimeter (mm)",
+    "mile": "Mile (mi)",
+    "yard": "Yard (yd)",
+    "foot": "Foot (ft)",
+    "inch": "Inch (in)",
+    "kilogram": "Kilogram (kg)",
+    "gram": "Gram (g)",
+    "milligram": "Milligram (mg)",
+    "pound": "Pound (lb)",
+    "ounce": "Ounce (oz)",
+    "ton": "Ton (t)",
+    "celsius": "Celsius (°C)",
+    "fahrenheit": "Fahrenheit (°F)",
+    "kelvin": "Kelvin (K)",
+    "liter": "Liter (L)",
+    "milliliter": "Milliliter (mL)",
+    "cubicMeter": "Cubic meter (m³)",
+    "gallon": "Gallon (US)",
+    "fluidOunce": "Fluid ounce (fl oz)",
+    "cup": "Cup (US)",
+    "tablespoon": "Tablespoon (tbsp)",
+    "teaspoon": "Teaspoon (tsp)"
   },
   "bmiCalculator": {
     "metaTitle": "BMI Calculator Online — Free",
@@ -224,7 +341,9 @@
     "underweight": "Underweight",
     "normal": "Normal weight",
     "overweight": "Overweight",
-    "obese": "Obese"
+    "obese": "Obese",
+    "weightKg": "Weight (kg)",
+    "weightLb": "Weight (lb)"
   },
   "compoundInterest": {
     "metaTitle": "Compound Interest Calculator Online — Free",
@@ -278,13 +397,15 @@
     "metaDescription": "DevBox Tools privacy policy. Learn what data we collect and how we protect your privacy.",
     "title": "Privacy Policy",
     "lastUpdated": "Last updated: August 2026",
-    "intro": "DevBox Tools is committed to protecting your privacy. This policy explains what information we collect and how we use it.",
-    "toolsTitle": "Your Tool Inputs",
-    "toolsText": "All processing happens locally in your browser. Text, data, or files you enter into any tool are never sent to our servers. We have no access to your inputs.",
+    "intro": "This policy explains what data is collected when you use DevBox Tools and how it is used.",
+    "toolsTitle": "Tool Inputs",
+    "toolsText": "Text, data, or files you enter into the tools (JSON, YAML, regex, diff, passwords, CPF/CNPJ, Base64, colors, and others) are processed locally in your browser and are never transmitted to our servers.",
     "analyticsTitle": "Analytics",
-    "analyticsText": "We use Google Analytics to collect anonymous page view data (pages visited, session duration, country). This data does not include any text you enter into tools, and it does not identify you personally.",
-    "cookiesTitle": "Cookies",
-    "cookiesText": "Google Analytics sets cookies to distinguish users and measure traffic. No other cookies are used by DevBox Tools.",
+    "analyticsText": "This site uses Google Analytics to collect aggregated, anonymous usage data: pages visited, session duration, geographic region (country/state), device type. Individual tool inputs and outputs are never included in Analytics data.",
+    "analyticsEventsTitle": "Analytics Events",
+    "analyticsEventsText": "We may track generic interaction events such as: tool used, result copied, export performed, language changed. These events contain only the tool name and action type — never the actual content you entered.",
+    "cookiesTitle": "Cookies and Local Storage",
+    "cookiesText": "Google Analytics uses cookies and similar identifiers to distinguish sessions and measure traffic. The site also stores your language preference (NEXT_LOCALE) as a cookie. If Google AdSense is enabled in the future, it will also use cookies for ad personalization. You can manage or block cookies in your browser settings.",
     "contactTitle": "Contact",
     "contactText": "If you have questions about this policy, please reach out via the contact page."
   },
@@ -296,7 +417,7 @@
     "useTitle": "Acceptable Use",
     "useText": "DevBox Tools is provided free of charge for personal and professional use. You may use these tools in your development workflow, QA processes, and software testing.",
     "testingTitle": "Generated Data for Testing Only",
-    "testingText": "CPF and CNPJ numbers generated by this tool are fictitious. They are mathematically valid but do not correspond to any real person or company. Using these numbers for any purpose other than software testing is illegal.",
+    "testingText": "Numbers generated by this tool are mathematically valid and have correct check digits. They are generated randomly and may coincidentally match a real registration. Use them exclusively in development, QA, and testing environments — never for real identification, registration, or any fraudulent purpose.",
     "warrantyTitle": "No Warranty",
     "warrantyText": "These tools are provided \"as is\" without warranty of any kind. We make no guarantees about accuracy or availability. Use at your own risk.",
     "changesTitle": "Changes",
@@ -333,30 +454,31 @@
     "title": "Alphanumeric CNPJ",
     "subtitle": "What changed on July 31, 2026 — and what your system needs to handle",
     "backgroundTitle": "Background",
-    "backgroundText": "On July 31, 2026, the Receita Federal do Brasil issued the first alphanumeric CNPJ: 00.000.000/E08G-12. This change was made possible by Normativa RFB n. 2.243/2026, which extended the CNPJ format to include letters in the branch (filial) part of the number.",
+    "backgroundText": "On July 31, 2026, the Receita Federal do Brasil issued the first alphanumeric CNPJ: 00.000.000/E08G-12. This change is governed by IN RFB nº 2.229, published in 2024, which expanded the CNPJ format to support letters in any of the 12 base positions.",
     "whyTitle": "Why the Change?",
-    "whyText": "The numeric CNPJ namespace was nearly exhausted. By introducing alphanumeric characters (A–Z) in positions 9–12 (the branch qualifier), the Receita Federal expanded the available space from roughly 10,000 to over 1.6 million branch codes per root.",
+    "whyText": "The numeric CNPJ namespace was approaching exhaustion. By allowing alphanumeric characters (A–Z, 0–9) across all 12 base positions, the Receita Federal expanded the available registration space by many orders of magnitude. Both old numeric CNPJs and new alphanumeric ones coexist permanently.",
     "structureTitle": "CNPJ Structure",
     "structureRootLabel": "Root (positions 1–8)",
-    "structureRootDesc": "Always numeric. Identifies the legal entity.",
+    "structureRootDesc": "Identifies the legal entity. Can be numeric (legacy) or alphanumeric (new registrations).",
     "structureBranchLabel": "Branch (positions 9–12)",
-    "structureBranchDesc": "Numeric for legacy CNPJs. May include letters A–Z for new CNPJs.",
+    "structureBranchDesc": "Identifies the establishment. Can be numeric or alphanumeric. Official example: 12.ABC.345/01DE-35.",
     "structureCheckLabel": "Check digits (positions 13–14)",
-    "structureCheckDesc": "Always numeric. Calculated using the unified algorithm.",
+    "structureCheckDesc": "Always two numeric digits. Calculated using the same algorithm for both formats.",
     "algorithmTitle": "Validation Algorithm",
-    "algorithmText": "The check digits use the same formula for both numeric and alphanumeric CNPJs. Each character is converted to a numeric value using charCode - 48:",
+    "algorithmText": "The check digits use the same formula for both numeric and alphanumeric CNPJs. Each character is converted to a numeric value using charCode - 48 (not standard base-36):",
     "algorithmTable": "0→0, 1→1, ..., 9→9, A→17, B→18, ..., E→21, ..., G→23, ..., Z→42",
     "algorithmWeights": "Weights for D1: [5,4,3,2,9,8,7,6,5,4,3,2] applied to positions 1–12. Weights for D2: [6,5,4,3,2,9,8,7,6,5,4,3,2] applied to positions 1–13 (including D1).",
     "algorithmRemainder": "Result = remainder % 11. If remainder < 2, digit = 0. Otherwise digit = 11 - remainder.",
-    "exampleTitle": "Official Example",
-    "exampleText": "The first alphanumeric CNPJ issued was 00.000.000/E08G-12. Verification:",
-    "exampleD1": "D1: E(21)×5 + 0×4 + 8×3 + G(23)×2 + ... = 175. 175 % 11 = 10. 11 − 10 = 1. D1 = 1 ✓",
+    "exampleTitle": "Official Examples",
+    "exampleText": "First alphanumeric CNPJ issued (Banco do Brasil branch, July 31, 2026): 00.000.000/E08G-12. Verification:",
+    "exampleD1": "D1: E(21)×5 + 0×4 + 8×3 + G(23)×2 + all other terms = 175. 175 % 11 = 10. 11 − 10 = 1. D1 = 1 ✓",
     "exampleD2": "D2 (includes D1=1): sum = 229. 229 % 11 = 9. 11 − 9 = 2. D2 = 2 ✓",
+    "exampleOfficialFull": "Official example with letters in both root and branch: 12.ABC.345/01DE-35.",
     "systemsTitle": "What to Update in Your Systems",
-    "systemsMask": "Input masks: change from \\d'{4}' to [0-9A-Z]'{4}' for branch positions.",
-    "systemsRegex": "Validation regex: accept letters in positions 9–12.",
-    "systemsDb": "Database columns: CNPJ fields must accept at least VARCHAR(18) to hold formatted values like 00.000.000/E08G-12.",
-    "systemsCase": "Case handling: treat letters case-insensitively. Normalize to uppercase before validation.",
+    "systemsMask": "Input masks: update patterns to accept A–Z in all 14 positions except the last two (check digits).",
+    "systemsRegex": "Validation regex: replace \\d with [0-9A-Z] for the first 12 characters; keep \\d for the 2 check digits.",
+    "systemsDb": "Database columns: CNPJ fields must be VARCHAR(18) (not INT/BIGINT). Store as text to preserve leading zeros and letters.",
+    "systemsCase": "Case handling: normalize to uppercase before validation. Store uppercase. Lowercase input is valid and should be accepted.",
     "toolTitle": "Validate Here",
     "toolText": "Use the CPF/CNPJ tool to validate both numeric and alphanumeric CNPJs."
   }

@@ -19,6 +19,7 @@ export default async function PrivacyPolicyPage() {
   const sections = [
     { title: t("toolsTitle"), body: t("toolsText") },
     { title: t("analyticsTitle"), body: t("analyticsText") },
+    { title: t("analyticsEventsTitle"), body: t("analyticsEventsText") },
     { title: t("cookiesTitle"), body: t("cookiesText") },
     { title: t("contactTitle"), body: t("contactText") },
   ];

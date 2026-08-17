@@ -1,30 +1,27 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
+
+type TFunc = ReturnType<typeof useTranslations>;
 
 function toMs(value: string): number | null {
   const n = Number(value.trim());
   if (isNaN(n)) return null;
-  // heuristic: timestamps before year 3000 in seconds have 10 digits
   return n < 1e12 ? n * 1000 : n;
 }
 
-function relativeTime(ms: number): string {
+function relativeTime(ms: number, t: TFunc): string {
   const diff = Math.round((ms - Date.now()) / 1000);
   const abs = Math.abs(diff);
   const past = diff < 0;
-  if (abs < 60) return past ? `${abs} seconds ago` : `in ${abs} seconds`;
-  if (abs < 3600) return past ? `${Math.floor(abs / 60)} minutes ago` : `in ${Math.floor(abs / 60)} minutes`;
-  if (abs < 86400) return past ? `${Math.floor(abs / 3600)} hours ago` : `in ${Math.floor(abs / 3600)} hours`;
-  return past ? `${Math.floor(abs / 86400)} days ago` : `in ${Math.floor(abs / 86400)} days`;
+  if (abs < 60)    return past ? t("secondsAgo", { n: abs })              : t("inSeconds", { n: abs });
+  if (abs < 3600)  return past ? t("minutesAgo", { n: Math.floor(abs / 60) })   : t("inMinutes", { n: Math.floor(abs / 60) });
+  if (abs < 86400) return past ? t("hoursAgo",   { n: Math.floor(abs / 3600) })  : t("inHours",   { n: Math.floor(abs / 3600) });
+  return                  past ? t("daysAgo",    { n: Math.floor(abs / 86400) }) : t("inDays",    { n: Math.floor(abs / 86400) });
 }
 
-interface ResultRowProps {
-  label: string;
-  value: string;
-}
-
-function ResultRow({ label, value }: ResultRowProps) {
+function ResultRow({ label, value, t }: { label: string; value: string; t: TFunc }) {
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
     navigator.clipboard.writeText(value);
@@ -45,13 +42,14 @@ function ResultRow({ label, value }: ResultRowProps) {
         className="text-xs px-3 py-1 rounded cursor-pointer hover:opacity-80 transition-opacity shrink-0 ml-4"
         style={{ background: "var(--surface-2)", color: "var(--text-muted)", border: "1px solid var(--border)" }}
       >
-        {copied ? "Copied!" : "Copy"}
+        {copied ? t("copied") : t("copy")}
       </button>
     </div>
   );
 }
 
 export default function TimestampClient() {
+  const t = useTranslations("timestampConverter");
   const [input, setInput] = useState("");
   const [results, setResults] = useState<{ label: string; value: string }[] | null>(null);
   const [error, setError] = useState("");
@@ -71,22 +69,21 @@ export default function TimestampClient() {
 
     const ms = toMs(raw);
     if (ms === null) {
-      // try parsing as a date string
       const parsed = new Date(raw);
       if (isNaN(parsed.getTime())) {
-        setError("Invalid timestamp or date. Enter a Unix timestamp (e.g. 1700000000) or a date (e.g. 2024-01-15).");
+        setError(t("inputError"));
         setResults(null);
         return;
       }
       setError("");
       const ts = parsed.getTime();
       setResults([
-        { label: "Unix Timestamp (seconds)", value: String(Math.floor(ts / 1000)) },
-        { label: "Unix Timestamp (milliseconds)", value: String(ts) },
-        { label: "ISO 8601", value: parsed.toISOString() },
-        { label: "UTC", value: parsed.toUTCString() },
-        { label: "Local Time", value: parsed.toLocaleString() },
-        { label: "Relative", value: relativeTime(ts) },
+        { label: t("unixSeconds"), value: String(Math.floor(ts / 1000)) },
+        { label: t("unixMillis"),  value: String(ts) },
+        { label: t("iso8601"),     value: parsed.toISOString() },
+        { label: t("utc"),         value: parsed.toUTCString() },
+        { label: t("localTime"),   value: parsed.toLocaleString() },
+        { label: t("relative"),    value: relativeTime(ts, t) },
       ]);
       return;
     }
@@ -94,14 +91,14 @@ export default function TimestampClient() {
     const date = new Date(ms);
     setError("");
     setResults([
-      { label: "ISO 8601", value: date.toISOString() },
-      { label: "UTC", value: date.toUTCString() },
-      { label: "Local Time", value: date.toLocaleString() },
-      { label: "Date only", value: date.toLocaleDateString() },
-      { label: "Time only", value: date.toLocaleTimeString() },
-      { label: "Relative", value: relativeTime(ms) },
+      { label: t("iso8601"),   value: date.toISOString() },
+      { label: t("utc"),       value: date.toUTCString() },
+      { label: t("localTime"), value: date.toLocaleString() },
+      { label: t("dateOnly"),  value: date.toLocaleDateString() },
+      { label: t("timeOnly"),  value: date.toLocaleTimeString() },
+      { label: t("relative"),  value: relativeTime(ms, t) },
     ]);
-  }, []);
+  }, [t]);
 
   const handleInput = (value: string) => {
     setInput(value);
@@ -128,7 +125,7 @@ export default function TimestampClient() {
         style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
       >
         <div>
-          <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Current Unix Timestamp</p>
+          <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>{t("current")}</p>
           <p className="font-mono text-xl font-bold" style={{ color: "var(--accent-hover)" }}>{now}</p>
         </div>
         <button
@@ -136,14 +133,14 @@ export default function TimestampClient() {
           className="px-4 py-2 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity"
           style={{ background: "var(--accent)", color: "#fff" }}
         >
-          Use Now
+          {t("useNow")}
         </button>
       </div>
 
       {/* Input */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>
-          Timestamp or Date
+          {t("inputLabel")}
         </label>
         <div className="flex gap-2">
           <input
@@ -160,21 +157,19 @@ export default function TimestampClient() {
             className="px-4 py-3 rounded-lg text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity"
             style={{ background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text-muted)" }}
           >
-            Clear
+            {t("clear")}
           </button>
         </div>
         {error && <p className="text-xs" style={{ color: "var(--error)" }}>{error}</p>}
-        <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-          Accepts Unix timestamps (seconds or milliseconds) or date strings (ISO 8601, YYYY-MM-DD, etc.)
-        </p>
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>{t("inputHint")}</p>
       </div>
 
       {/* Results */}
       {results && (
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>Results</p>
+          <p className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>{t("results")}</p>
           {results.map((r) => (
-            <ResultRow key={r.label} label={r.label} value={r.value} />
+            <ResultRow key={r.label} label={r.label} value={r.value} t={t} />
           ))}
         </div>
       )}

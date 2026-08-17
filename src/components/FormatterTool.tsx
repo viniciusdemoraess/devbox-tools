@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 type Mode = "json" | "yaml";
 type Status = "idle" | "valid" | "error";
@@ -21,6 +22,7 @@ interface FormatterToolProps {
 }
 
 export default function FormatterTool({ mode, format, minify, placeholder, example }: FormatterToolProps) {
+  const t = useTranslations("common");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
@@ -92,7 +94,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>
-            Input
+            {t("input")}
           </label>
           <textarea
             className="w-full h-[520px] rounded-lg p-3 font-mono text-sm resize-y outline-none focus:ring-2 focus:ring-indigo-500"
@@ -112,14 +114,14 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between min-h-[24px]">
             <label className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>
-              Output
+              {t("output")}
             </label>
             {status === "valid" && (
               <span className="text-xs font-semibold px-2 py-0.5 rounded-full flex items-center gap-1" style={{ background: "var(--success-bg)", color: "var(--success)" }}>
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                   <path d="M1.5 5L4 7.5L8.5 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                Valid
+                {t("valid")}
               </span>
             )}
             {status === "error" && (
@@ -130,7 +132,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
                   </span>
                 )}
                 <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: "var(--error-bg)", color: "var(--error)" }}>
-                  Invalid
+                  {t("invalid")}
                 </span>
               </div>
             )}
@@ -145,7 +147,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
             }}
             readOnly
             value={status === "error" ? error : output}
-            placeholder="Output will appear here..."
+            placeholder={t("output")}
             spellCheck={false}
           />
         </div>
@@ -157,7 +159,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
           className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
           style={{ background: "var(--accent)", color: "#fff" }}
         >
-          Format / Validate
+          {t("formatValidate")}
         </button>
         {minify && (
           <button
@@ -165,7 +167,7 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
             className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
             style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
           >
-            Minify
+            {t("minify")}
           </button>
         )}
         <button
@@ -180,21 +182,21 @@ export default function FormatterTool({ mode, format, minify, placeholder, examp
           }}
           disabled={!output}
         >
-          {copied ? "Copied!" : "Copy Output"}
+          {copied ? t("copied") : t("copy")}
         </button>
         <button
           onClick={handleExample}
           className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
           style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
         >
-          Load Example
+          {t("loadExample")}
         </button>
         <button
           onClick={handleClear}
           className="btn-press px-5 py-2 rounded-lg font-medium text-sm cursor-pointer"
           style={{ background: "var(--surface-2)", color: "var(--text)", border: "1px solid var(--border)" }}
         >
-          Clear
+          {t("clear")}
         </button>
       </div>
     </div>

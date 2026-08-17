@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 const TEMPLATES: Record<string, string> = {
   Node: `# Node
@@ -174,15 +175,18 @@ override.tf
 override.tf.json`,
 };
 
-const CATEGORIES: { label: string; items: string[] }[] = [
-  { label: "Languages", items: ["Node", "Python", "Java", "C/C++", "Go", "Rust"] },
-  { label: "Frameworks", items: ["React", "Next.js", "Vue", "Laravel", "Django"] },
-  { label: "OS", items: ["macOS", "Windows", "Linux"] },
-  { label: "Editors", items: ["VSCode", "JetBrains"] },
-  { label: "Tools", items: ["Docker", "Terraform"] },
+type CategoryKey = "languages" | "frameworks" | "os" | "editors" | "tools";
+
+const CATEGORIES: { key: CategoryKey; items: string[] }[] = [
+  { key: "languages",  items: ["Node", "Python", "Java", "C/C++", "Go", "Rust"] },
+  { key: "frameworks", items: ["React", "Next.js", "Vue", "Laravel", "Django"] },
+  { key: "os",         items: ["macOS", "Windows", "Linux"] },
+  { key: "editors",    items: ["VSCode", "JetBrains"] },
+  { key: "tools",      items: ["Docker", "Terraform"] },
 ];
 
 export default function GitignoreClient() {
+  const t = useTranslations("gitignoreGenerator");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [copied, setCopied] = useState(false);
 
@@ -218,9 +222,9 @@ export default function GitignoreClient() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-5">
         {CATEGORIES.map((cat) => (
-          <div key={cat.label}>
+          <div key={cat.key}>
             <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "var(--text-muted)" }}>
-              {cat.label}
+              {t(cat.key)}
             </p>
             <div className="flex flex-wrap gap-2">
               {cat.items.map((item) => (
@@ -250,21 +254,21 @@ export default function GitignoreClient() {
               className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-90 transition-opacity"
               style={{ background: "var(--accent)", color: "#fff" }}
             >
-              {copied ? "Copied!" : "Copy"}
+              {copied ? t("copied") : t("copy")}
             </button>
             <button
               onClick={handleDownload}
               className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-80 transition-opacity"
               style={{ background: "var(--surface)", color: "var(--text)", border: "1px solid var(--border)" }}
             >
-              Download .gitignore
+              {t("downloadGitignore")}
             </button>
             <button
               onClick={() => setSelected(new Set())}
               className="px-5 py-2 rounded-lg font-medium text-sm cursor-pointer hover:opacity-80 transition-opacity"
               style={{ background: "var(--surface)", color: "var(--text-muted)", border: "1px solid var(--border)" }}
             >
-              Clear
+              {t("clear")}
             </button>
           </div>
           <textarea
@@ -279,7 +283,7 @@ export default function GitignoreClient() {
 
       {selected.size === 0 && (
         <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-          Select one or more options above to generate your .gitignore file.
+          {t("placeholder")}
         </p>
       )}
     </div>

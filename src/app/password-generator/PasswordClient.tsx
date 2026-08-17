@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 const CHARS = {
-  upper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-  lower: "abcdefghijklmnopqrstuvwxyz",
+  upper:   "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  lower:   "abcdefghijklmnopqrstuvwxyz",
   numbers: "0123456789",
   symbols: "!@#$%^&*()_+-=[]{}|;:,.<>?",
 };
 
-function getStrength(password: string): { label: string; color: string; width: string } {
+type StrengthKey = "weak" | "medium" | "strong";
+
+function getStrength(password: string): { key: StrengthKey; color: string; width: string } {
   let score = 0;
   if (password.length >= 12) score++;
   if (password.length >= 16) score++;
@@ -17,15 +20,15 @@ function getStrength(password: string): { label: string; color: string; width: s
   if (/[a-z]/.test(password)) score++;
   if (/[0-9]/.test(password)) score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
-  if (score <= 2) return { label: "Weak", color: "var(--error)", width: "33%" };
-  if (score <= 4) return { label: "Medium", color: "#f59e0b", width: "66%" };
-  return { label: "Strong", color: "var(--success)", width: "100%" };
+  if (score <= 2) return { key: "weak",   color: "var(--error)",   width: "33%" };
+  if (score <= 4) return { key: "medium", color: "#f59e0b",        width: "66%" };
+  return              { key: "strong", color: "var(--success)", width: "100%" };
 }
 
 function generate(length: number, opts: Record<string, boolean>): string {
   let pool = "";
-  if (opts.upper) pool += CHARS.upper;
-  if (opts.lower) pool += CHARS.lower;
+  if (opts.upper)   pool += CHARS.upper;
+  if (opts.lower)   pool += CHARS.lower;
   if (opts.numbers) pool += CHARS.numbers;
   if (opts.symbols) pool += CHARS.symbols;
   if (!pool) pool = CHARS.lower;
@@ -35,6 +38,7 @@ function generate(length: number, opts: Record<string, boolean>): string {
 }
 
 export default function PasswordClient() {
+  const t = useTranslations("passwordGenerator");
   const [length, setLength] = useState(16);
   const [opts, setOpts] = useState({ upper: true, lower: true, numbers: true, symbols: false });
   const [passwords, setPasswords] = useState<string[]>(() =>
@@ -52,12 +56,19 @@ export default function PasswordClient() {
     setTimeout(() => setCopied(null), 2000);
   };
 
+  const OPT_LABELS: Record<keyof typeof opts, string> = {
+    upper:   t("uppercase"),
+    lower:   t("lowercase"),
+    numbers: t("numbers"),
+    symbols: t("symbols"),
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="rounded-xl p-5 flex flex-col gap-5" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
         <div className="flex flex-col gap-2">
           <div className="flex justify-between items-center">
-            <label className="text-sm font-medium">Length</label>
+            <label className="text-sm font-medium">{t("length")}</label>
             <span className="font-mono text-sm font-bold" style={{ color: "var(--accent-hover)" }}>{length}</span>
           </div>
           <input
@@ -78,7 +89,7 @@ export default function PasswordClient() {
                 onChange={(e) => setOpts((o) => ({ ...o, [key]: e.target.checked }))}
                 className="accent-indigo-500 w-4 h-4 cursor-pointer"
               />
-              <span className="text-sm capitalize">{key === "upper" ? "Uppercase (A-Z)" : key === "lower" ? "Lowercase (a-z)" : key === "numbers" ? "Numbers (0-9)" : "Symbols (!@#...)"}</span>
+              <span className="text-sm">{OPT_LABELS[key]}</span>
             </label>
           ))}
         </div>
@@ -88,7 +99,7 @@ export default function PasswordClient() {
           className="btn-press px-5 py-2.5 rounded-lg font-medium text-sm cursor-pointer w-full"
           style={{ background: "var(--accent)", color: "#fff" }}
         >
-          Generate Passwords
+          {t("generatePasswords")}
         </button>
       </div>
 
@@ -104,14 +115,14 @@ export default function PasswordClient() {
                   className="px-4 py-1.5 rounded-lg text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity shrink-0"
                   style={{ background: copied === i ? "var(--success)" : "var(--accent)", color: "#fff" }}
                 >
-                  {copied === i ? "Copied!" : "Copy"}
+                  {copied === i ? t("copied") : t("copy")}
                 </button>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex-1 h-1 rounded-full" style={{ background: "var(--border)" }}>
                   <div className="h-1 rounded-full transition-all" style={{ width: strength.width, background: strength.color }} />
                 </div>
-                <span className="text-xs font-medium" style={{ color: strength.color }}>{strength.label}</span>
+                <span className="text-xs font-medium" style={{ color: strength.color }}>{t(strength.key)}</span>
               </div>
             </div>
           );
