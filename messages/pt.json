@@ -35,6 +35,7 @@
     "compoundInterest": "Juros Compostos"
   },
   "home": {
+    "metaTitle": "DevBox Tools — Ferramentas Online para Desenvolvedores e QA",
     "title": "Ferramentas para Devs, Simplificadas",
     "subtitle": "Gratuito, rápido e privado. As entradas das ferramentas são processadas no seu navegador — nunca enviadas a servidores.",
     "developer": "Desenvolvedor",
@@ -102,7 +103,12 @@
     "title": "Formatador e Validador de JSON",
     "description": "Cole seu JSON para formatá-lo, validá-lo ou minificá-lo instantaneamente. Roda no seu navegador.",
     "aboutTitle": "Sobre o Formatador JSON",
-    "aboutText": "JSON (JavaScript Object Notation) é um formato leve de troca de dados. Esta ferramenta ajuda a formatar JSON com indentação correta, validar a sintaxe e minificar para reduzir o tamanho do arquivo. Erros comuns como vírgulas faltando e colchetes incorretos são detectados imediatamente."
+    "aboutText": "JSON (JavaScript Object Notation) é um formato leve de troca de dados. Esta ferramenta ajuda a formatar JSON com indentação correta, validar a sintaxe e minificar para reduzir o tamanho do arquivo. Erros como vírgulas faltando e colchetes incorretos são detectados imediatamente.",
+    "howToUseTitle": "Como Usar",
+    "howToUse": "Cole seu JSON no editor e clique em Formatar. Erros de sintaxe são exibidos imediatamente com o número de linha e coluna. Use Minificar para gerar uma versão compacta para produção. Clique em Exemplo para ver uma estrutura JSON de amostra.",
+    "commonErrorsTitle": "Erros Comuns de JSON",
+    "commonErrors": "Vírgula faltando entre propriedades ou itens de array · Vírgula após o último item (não é permitido em JSON) · Aspas simples no lugar de duplas · Nomes de propriedades sem aspas · Uso de undefined, NaN ou Infinity (não são valores JSON válidos) · Comentários (// ou /* */) que não fazem parte do formato JSON.",
+    "privacyNote": "Seu JSON é processado inteiramente no seu navegador. Nada é enviado a nenhum servidor."
   },
   "yamlValidator": {
     "metaTitle": "Validador e Formatador de YAML Online — Grátis",
@@ -110,7 +116,12 @@
     "title": "Validador e Formatador de YAML",
     "description": "Cole seu YAML para validar a sintaxe e obter uma versão formatada. Roda no seu navegador.",
     "aboutTitle": "Sobre o Validador YAML",
-    "aboutText": "YAML é amplamente usado em arquivos de configuração (Docker Compose, Kubernetes, GitHub Actions, etc). Esta ferramenta valida sua sintaxe YAML e reporta erros com linha e coluna exatas, facilitando a correção em pipelines CI/CD."
+    "aboutText": "YAML é amplamente usado em arquivos de configuração — Docker Compose, Kubernetes, GitHub Actions, Ansible e outros. Esta ferramenta valida a sintaxe YAML e reporta erros com linha e coluna exatas.",
+    "howToUseTitle": "Como Usar",
+    "howToUse": "Cole seu YAML e clique em Formatar e Validar. Erros são exibidos com linha e coluna exatas. A saída formatada usa indentação consistente de 2 espaços. Clique em Exemplo para ver uma estrutura válida de Docker Compose.",
+    "commonErrorsTitle": "Erros Comuns de YAML",
+    "commonErrors": "Uso de tabs em vez de espaços (YAML exige espaços) · Falta de espaço após dois-pontos — escreva chave: valor, não chave:valor · Strings com caracteres especiais sem aspas (: { } [ ] # & *) · Chaves duplicadas no mesmo bloco · Nível de indentação incorreto quebrando a estrutura.",
+    "privacyNote": "Seu YAML é processado inteiramente no seu navegador. Nada é enviado a nenhum servidor."
   },
   "textDiff": {
     "metaTitle": "Comparador de Texto Online — Diff Grátis",
@@ -167,7 +178,15 @@
     "flagDotAll": "Ponto corresponde à nova linha",
     "matchCount": "{count, plural, one {# ocorrência} other {# ocorrências}}",
     "matchIndex": "índice {index}",
-    "moreMatches": "…e mais {count} ocorrências"
+    "moreMatches": "…e mais {count} ocorrências",
+    "testTextDefault": "Digite ou cole seu texto aqui para testar a expressão regular acima. As correspondências serão destacadas em tempo real.",
+    "aboutTitle": "Sobre o Testador de Regex",
+    "aboutText": "Expressões regulares (regex) são padrões usados para localizar ou validar texto. Esta ferramenta destaca todas as correspondências em tempo real enquanto você digita, com detalhes sobre posições e grupos. Útil para validar e-mails, URLs, telefones, datas e extrair dados estruturados de logs e arquivos.",
+    "howToUseTitle": "Como Usar",
+    "howToUse": "Digite seu padrão no campo de regex. Ative flags com os botões (g = global, i = sem distinção de maiúsculas, m = multilinha, s = ponto corresponde à nova linha). Cole ou digite texto na área de teste — as correspondências são destacadas instantaneamente. Clique em um dos exemplos prontos para começar com um padrão comum.",
+    "commonErrorsTitle": "Erros Comuns de Regex",
+    "commonErrors": "Esquecer de escapar caracteres especiais: . * + ? ( ) [ ] { } \\ | ^ $ · Falta do flag g quando você espera múltiplas correspondências · Quantificadores gulosos (.+) correspondendo mais do que o esperado — use .+? para não-guloso · Ponto não escapado em padrões de e-mail correspondendo qualquer caractere · Hífen no meio de classe de caracteres sem escapar: use [a-z] ou [\\-az].",
+    "privacyNote": "Seus padrões e texto de teste são processados inteiramente no seu navegador. Nada é enviado a nenhum servidor."
   },
   "gitignoreGenerator": {
     "metaTitle": "Gerador de .gitignore Online — Grátis",
@@ -272,7 +291,15 @@
     "alphanumericBadge": "NOVO",
     "validResult": "válido",
     "invalidResult": "inválido",
-    "detectedAs": "Detectado como"
+    "detectedAs": "Detectado como",
+    "testingWarning": "Os números gerados são matematicamente válidos e podem eventualmente coincidir com cadastros existentes. Utilize-os exclusivamente em ambientes de desenvolvimento, QA e testes.",
+    "aboutTitle": "Sobre o Gerador de CPF e CNPJ",
+    "aboutText": "Esta ferramenta gera CPF e CNPJ com dígitos verificadores corretos para uso em testes de software, automação de QA e desenvolvimento. Suporta CNPJ numérico, o novo formato de CNPJ alfanumérico (IN RFB nº 2.229/2024) e CPF.",
+    "algorithmTitle": "Como Funciona a Validação",
+    "algorithmText": "CPF e CNPJ utilizam um algoritmo de módulo 11 ponderado. Cada dígito é multiplicado por um peso decrescente, a soma é dividida por 11 e o resto determina os dígitos verificadores. O CNPJ alfanumérico usa o mesmo algoritmo — letras são codificadas como o código ASCII menos 48 (A = 17, B = 18, …, Z = 42).",
+    "howToUseTitle": "Como Usar",
+    "howToUse": "Selecione o tipo de documento e a quantidade e clique em Gerar. Use a aba Validar para verificar se um CPF ou CNPJ existente é matematicamente válido. Copie o valor formatado ou sem máscara com um clique. Exporte múltiplos documentos como JSON ou CSV para fixtures de teste ou seeds de banco de dados.",
+    "privacyNote": "Todos os documentos são gerados e validados localmente no seu navegador. Nenhum CPF ou CNPJ é enviado a nenhum servidor ou analytics."
   },
   "wordCounter": {
     "metaTitle": "Contador de Palavras e Tempo de Leitura Online — Grátis",
@@ -368,7 +395,8 @@
     "support": "Apoie",
     "privacy": "Política de Privacidade",
     "terms": "Termos de Uso",
-    "cnpjGuide": "CNPJ Alfanumérico"
+    "cnpjGuide": "CNPJ Alfanumérico",
+    "openMenu": "Abrir menu de navegação"
   },
   "footer": {
     "tagline": "Ferramentas gratuitas, rápidas e privadas para devs.",
@@ -388,9 +416,10 @@
     "missionTitle": "Nossa Missão",
     "missionText": "O DevBox Tools existe para dar a desenvolvedores, engenheiros de QA e times de backend utilitários rápidos e sem atrito que respeitam a sua privacidade. Cada ferramenta roda inteiramente no seu navegador — seus dados nunca saem do seu computador.",
     "privacyTitle": "Privacidade por Design",
-    "privacyText": "Não coletamos, armazenamos nem transmitimos nenhum texto que você digita ou cola nas nossas ferramentas. A análise se limita a contagens anônimas de visualizações de página (Google Analytics) para entendermos quais ferramentas são mais úteis. Nenhum dado pessoal é processado.",
+    "privacyText": "Textos, dados ou arquivos inseridos nas ferramentas são processados localmente no seu navegador e nunca são transmitidos a nenhum servidor. O site utiliza Google Analytics para coletar dados agregados e anônimos. Nenhum conteúdo inserido nas ferramentas é enviado ao Analytics. Para detalhes completos, consulte nossa Política de Privacidade.",
     "openTitle": "Sempre Gratuito",
-    "openText": "Todas as ferramentas são gratuitas e não exigem conta. Se o DevBox Tools economiza seu tempo, considere apoiar o projeto."
+    "openText": "Todas as ferramentas são gratuitas e não exigem conta. Se o DevBox Tools economiza seu tempo, considere apoiar o projeto.",
+    "supportLink": "Apoiar o DevBox Tools →"
   },
   "privacy": {
     "metaTitle": "Política de Privacidade — DevBox Tools",

@@ -17,20 +17,20 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: { default: "DevBox Tools", template: "%s | DevBox Tools" },
-  description: "Free online developer tools — JSON formatter, YAML validator, regex tester, CPF/CNPJ generator, and more. Everything runs in your browser.",
+  description: "Ferramentas online gratuitas para devs — formatador JSON, validador YAML, testador de regex, gerador de CPF/CNPJ e mais. Tudo roda no navegador.",
   metadataBase: new URL(siteConfig.url),
   verification: { google: "CC28w4J744vKnS9WrFRMTJ76swP3pdwuQvfzXpaRnxI" },
   openGraph: {
     type: "website",
     siteName: "DevBox Tools",
-    title: "DevBox Tools — Free Developer Utilities",
-    description: "Free, fast, and private developer tools. JSON formatter, YAML validator, regex tester, CPF/CNPJ generator, and more.",
+    title: "DevBox Tools — Ferramentas Online para Desenvolvedores e QA",
+    description: "Ferramentas gratuitas, rápidas e privadas para devs. JSON, YAML, regex, diff, CPF/CNPJ e muito mais.",
     url: siteConfig.url,
   },
   twitter: {
     card: "summary",
-    title: "DevBox Tools — Free Developer Utilities",
-    description: "Free, fast, and private developer tools. Everything runs in your browser.",
+    title: "DevBox Tools — Ferramentas Online para Devs",
+    description: "Ferramentas gratuitas, rápidas e privadas para desenvolvedores. Tudo roda no navegador.",
   },
 };
 
@@ -63,7 +63,12 @@ export default async function LocaleLayout({
           <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--border)" }}>
             <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
               <Sidebar />
-              <Link href="/" className="font-bold text-lg tracking-tight flex-1" style={{ color: "var(--accent-hover)" }}>
+              <Link href="/" className="font-bold text-lg tracking-tight flex-1 flex items-center gap-2" style={{ color: "var(--accent-hover)" }}>
+                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <rect width="32" height="32" rx="7" fill="#4f46e5"/>
+                  <path d="M5 9L14 16L5 23" stroke="white" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <line x1="16" y1="23" x2="27" y2="23" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+                </svg>
                 DevBox<span style={{ color: "var(--text-muted)" }}>.tools</span>
               </Link>
               <LanguageSwitcher />

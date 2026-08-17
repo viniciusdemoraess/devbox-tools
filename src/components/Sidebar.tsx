@@ -54,7 +54,7 @@ export default function Sidebar() {
         onClick={() => setOpen(true)}
         className="p-2 rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
         style={{ color: "var(--text-muted)" }}
-        aria-label="Open menu"
+        aria-label={tn("openMenu")}
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -76,7 +76,12 @@ export default function Sidebar() {
         }}
       >
         <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid var(--border)" }}>
-          <Link href="/" onClick={() => setOpen(false)} className="font-bold text-base" style={{ color: "var(--accent-hover)" }}>
+          <Link href="/" onClick={() => setOpen(false)} className="font-bold text-base flex items-center gap-2" style={{ color: "var(--accent-hover)" }}>
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+              <rect width="32" height="32" rx="7" fill="#4f46e5"/>
+              <path d="M5 9L14 16L5 23" stroke="white" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <line x1="16" y1="23" x2="27" y2="23" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+            </svg>
             DevBox<span style={{ color: "var(--text-muted)" }}>.tools</span>
           </Link>
           <button onClick={() => setOpen(false)} className="cursor-pointer hover:opacity-80" style={{ color: "var(--text-muted)" }}>

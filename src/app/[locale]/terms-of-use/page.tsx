@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
+import { pageMetadata } from "@/lib/metadata";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata() {
+  const locale = await getLocale();
   const t = await getTranslations("terms");
-  return {
-    title: t("metaTitle"),
-    description: t("metaDescription"),
-  };
+  return pageMetadata(locale, "terms-of-use", t("metaTitle"), t("metaDescription"));
 }
 
 export function generateStaticParams() {

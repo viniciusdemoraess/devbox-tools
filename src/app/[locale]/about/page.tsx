@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { pageMetadata } from "@/lib/metadata";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata() {
+  const locale = await getLocale();
   const t = await getTranslations("about");
-  return {
-    title: t("metaTitle"),
-    description: t("metaDescription"),
-  };
+  return pageMetadata(locale, "about", t("metaTitle"), t("metaDescription"));
 }
 
 export function generateStaticParams() {
@@ -48,7 +46,7 @@ export default async function AboutPage() {
           className="text-sm font-medium hover:underline w-fit"
           style={{ color: "var(--accent)" }}
         >
-          Support DevBox Tools →
+          {t("supportLink")}
         </Link>
       </section>
     </div>

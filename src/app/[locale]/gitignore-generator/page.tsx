@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import GitignoreClient from "../../gitignore-generator/GitignoreClient";
+import { pageMetadata } from "@/lib/metadata";
 
 type Locale = "en" | "pt";
 
@@ -10,7 +11,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "gitignoreGenerator" });
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return pageMetadata(locale, "gitignore-generator", t("metaTitle"), t("metaDescription"));
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: Locale }> }) {

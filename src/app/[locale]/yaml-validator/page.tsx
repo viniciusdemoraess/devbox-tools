@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import YamlValidatorClient from "../../yaml-validator/YamlValidatorClient";
+import { pageMetadata } from "@/lib/metadata";
 
 type Locale = "en" | "pt";
 
@@ -10,7 +11,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "yamlValidator" });
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return pageMetadata(locale, "yaml-validator", t("metaTitle"), t("metaDescription"));
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: Locale }> }) {
@@ -21,6 +22,21 @@ export default async function Page({ params }: { params: Promise<{ locale: Local
       <h1 className="text-3xl font-bold mb-2">{t("title")}</h1>
       <p className="mb-8" style={{ color: "var(--text-muted)" }}>{t("description")}</p>
       <YamlValidatorClient />
+      <div className="mt-12 flex flex-col gap-8 max-w-3xl">
+        <section>
+          <h2 className="text-xl font-semibold mb-2">{t("aboutTitle")}</h2>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{t("aboutText")}</p>
+        </section>
+        <section>
+          <h2 className="text-xl font-semibold mb-2">{t("howToUseTitle")}</h2>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{t("howToUse")}</p>
+        </section>
+        <section>
+          <h2 className="text-xl font-semibold mb-2">{t("commonErrorsTitle")}</h2>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{t("commonErrors")}</p>
+        </section>
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>🔒 {t("privacyNote")}</p>
+      </div>
     </div>
   );
 }

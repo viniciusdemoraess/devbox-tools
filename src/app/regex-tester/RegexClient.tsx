@@ -14,7 +14,7 @@ export default function RegexClient() {
   const t = useTranslations("regexTester");
   const [pattern, setPattern] = useState("");
   const [flags, setFlags] = useState("g");
-  const [text, setText] = useState("Type or paste your text here to test the regex above. Matches will be highlighted in real time.");
+  const [text, setText] = useState(() => t("testTextDefault"));
 
   const FLAG_OPTIONS = [
     { flag: "g", label: "g", title: t("flagGlobal") },

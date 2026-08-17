@@ -259,6 +259,9 @@ export default function CpfCnpjClient() {
                   />
                 ))}
               </div>
+              <p className="text-xs px-1" style={{ color: "var(--text-muted)" }}>
+                ⚠ {t("testingWarning")}
+              </p>
               <div className="flex gap-2 flex-wrap">
                 <button
                   onClick={exportJson}

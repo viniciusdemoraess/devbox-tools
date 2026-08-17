@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/lib/config";
+import { pageMetadata } from "@/lib/metadata";
 
 type Locale = "en" | "pt";
 
@@ -174,7 +175,7 @@ function ToolCard({ toolKey, href, title, description }: {
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });
-  return { title: "DevBox Tools", description: t("subtitle") };
+  return pageMetadata(locale, "", t("metaTitle"), t("subtitle"));
 }
 
 export function generateStaticParams() {

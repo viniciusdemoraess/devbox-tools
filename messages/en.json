@@ -35,6 +35,7 @@
     "compoundInterest": "Compound Interest"
   },
   "home": {
+    "metaTitle": "DevBox Tools — Free Online Tools for Developers and QA",
     "title": "Developer Tools, Simplified",
     "subtitle": "Free, fast, and private. Tool inputs are processed in your browser — never sent to a server.",
     "developer": "Developer",
@@ -102,7 +103,12 @@
     "title": "JSON Formatter & Validator",
     "description": "Paste your JSON to format, validate, or minify it instantly. Runs entirely in your browser.",
     "aboutTitle": "About JSON Formatter",
-    "aboutText": "JSON (JavaScript Object Notation) is a lightweight data-interchange format. This tool helps you format JSON with proper indentation, validate JSON syntax, and minify JSON to reduce file size. Common errors like missing commas, trailing commas, and mismatched brackets are caught immediately."
+    "aboutText": "JSON (JavaScript Object Notation) is a lightweight data-interchange format. This tool helps you format JSON with proper indentation, validate JSON syntax, and minify JSON to reduce file size. Common errors like missing commas, trailing commas, and mismatched brackets are caught immediately.",
+    "howToUseTitle": "How to Use",
+    "howToUse": "Paste your JSON into the editor and click Format. Syntax errors are shown immediately with the line and column number. Use Minify to produce a compact version for production. Click Load Example to start from a sample JSON structure.",
+    "commonErrorsTitle": "Common JSON Errors",
+    "commonErrors": "Missing comma between properties or array items · Trailing comma after the last item (not valid in JSON) · Single quotes instead of double quotes · Unquoted property names · Using undefined, NaN, or Infinity (not valid JSON values) · Comments (// or /* */) which are not part of the JSON spec.",
+    "privacyNote": "Your JSON is processed entirely in your browser. Nothing is ever sent to any server."
   },
   "yamlValidator": {
     "metaTitle": "YAML Validator & Formatter Online — Free",
@@ -110,7 +116,12 @@
     "title": "YAML Validator & Formatter",
     "description": "Paste your YAML to validate syntax and get a formatted, readable version. Runs entirely in your browser.",
     "aboutTitle": "About YAML Validator",
-    "aboutText": "YAML (YAML Ain't Markup Language) is commonly used for configuration files (Docker Compose, Kubernetes, GitHub Actions, etc). This tool validates your YAML syntax and reports errors with exact line and column numbers, making it easy to fix issues in CI/CD pipelines and config files."
+    "aboutText": "YAML (YAML Ain't Markup Language) is commonly used for configuration files — Docker Compose, Kubernetes manifests, GitHub Actions, Ansible playbooks, and more. This tool validates YAML syntax and reports errors with exact line and column numbers.",
+    "howToUseTitle": "How to Use",
+    "howToUse": "Paste your YAML and click Format & Validate. Errors are shown with exact line and column numbers. The formatted output uses consistent 2-space indentation. Use Load Example to see a valid Docker Compose structure.",
+    "commonErrorsTitle": "Common YAML Errors",
+    "commonErrors": "Tabs instead of spaces for indentation (YAML requires spaces only) · Missing space after colon — write key: value, not key:value · Unquoted strings containing special characters (: { } [ ] # & *) · Duplicate keys in the same block · Incorrect indentation level breaking the structure.",
+    "privacyNote": "Your YAML is processed entirely in your browser. Nothing is ever sent to any server."
   },
   "textDiff": {
     "metaTitle": "Text Diff Online — Compare Two Texts Free",
@@ -167,7 +178,15 @@
     "flagDotAll": "Dot matches newline",
     "matchCount": "{count, plural, one {# match} other {# matches}}",
     "matchIndex": "index {index}",
-    "moreMatches": "…and {count} more matches"
+    "moreMatches": "…and {count} more matches",
+    "testTextDefault": "Type or paste your text here to test the regex above. Matches will be highlighted in real time.",
+    "aboutTitle": "About Regex Tester",
+    "aboutText": "Regular expressions (regex) are patterns used to find or validate text. This tool highlights all matches in real time as you type, with full details on match positions. Useful for validating email addresses, URLs, phone numbers, dates, or extracting structured data from logs and files.",
+    "howToUseTitle": "How to Use",
+    "howToUse": "Enter your pattern in the regex field. Toggle flags with the buttons (g = global, i = case-insensitive, m = multiline, s = dot matches newline). Paste or type text in the test area — matches are highlighted instantly. Click one of the built-in examples to start with a common pattern.",
+    "commonErrorsTitle": "Common Regex Mistakes",
+    "commonErrors": "Forgetting to escape special characters: . * + ? ( ) [ ] { } \\ | ^ $ · Missing the g flag when you expect multiple matches · Greedy quantifiers (.+) matching too much — use .+? for non-greedy · Unescaped dots in email patterns matching any character · Character class hyphen not escaped or at the start/end: use [a-z] or [\\-az].",
+    "privacyNote": "Your patterns and test text are processed entirely in your browser. Nothing is sent to any server."
   },
   "gitignoreGenerator": {
     "metaTitle": ".gitignore Generator Online — Free",
@@ -272,7 +291,15 @@
     "alphanumericBadge": "NEW",
     "validResult": "valid",
     "invalidResult": "invalid",
-    "detectedAs": "Detected as"
+    "detectedAs": "Detected as",
+    "testingWarning": "The generated numbers are mathematically valid and may coincidentally match real records. Use them exclusively in development, QA, and testing environments.",
+    "aboutTitle": "About CPF / CNPJ Generator",
+    "aboutText": "This tool generates CPF and CNPJ numbers with correct check digits for use in software testing, QA automation, and development. It supports numeric CNPJ, the new alphanumeric CNPJ format (IN RFB nº 2.229/2024), and CPF.",
+    "algorithmTitle": "How the Validation Works",
+    "algorithmText": "CPF and CNPJ use a weighted modulo-11 algorithm. Each digit is multiplied by a decreasing weight, the sum is divided by 11, and the remainder determines the check digits. The alphanumeric CNPJ uses the same algorithm — letters are encoded as their ASCII code minus 48 (so A = 17, B = 18, …, Z = 42).",
+    "howToUseTitle": "How to Use",
+    "howToUse": "Select the document type and quantity, then click Generate. Use the Validate tab to check whether an existing CPF or CNPJ is mathematically valid. Copy the formatted or raw value with one click. Export multiple generated documents as JSON or CSV for test fixtures or database seeds.",
+    "privacyNote": "All documents are generated and validated locally in your browser. No CPF or CNPJ values are ever sent to any server or analytics."
   },
   "wordCounter": {
     "metaTitle": "Word Counter & Reading Time Online — Free",
@@ -368,7 +395,8 @@
     "support": "Support",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
-    "cnpjGuide": "Alphanumeric CNPJ"
+    "cnpjGuide": "Alphanumeric CNPJ",
+    "openMenu": "Open navigation menu"
   },
   "footer": {
     "tagline": "Free, fast, and private developer tools.",
@@ -388,9 +416,10 @@
     "missionTitle": "Our Mission",
     "missionText": "DevBox Tools exists to give developers, QA engineers, and backend teams fast, no-friction utilities that respect their privacy. Every tool runs entirely in your browser — your data never leaves your machine.",
     "privacyTitle": "Privacy by Design",
-    "privacyText": "We do not collect, store, or transmit any text you type or paste into our tools. Analytics are limited to anonymous page view counts (Google Analytics) so we can understand which tools are most useful. No personal data is ever processed.",
+    "privacyText": "Text, data, or files you enter into our tools are processed entirely in your browser and are never transmitted to any server. The site uses Google Analytics to collect anonymous, aggregated usage data. No tool content is ever sent to Analytics. For full details, see our Privacy Policy.",
     "openTitle": "Free Forever",
-    "openText": "All tools are free to use, with no account required. If you find DevBox Tools useful, consider supporting the project."
+    "openText": "All tools are free to use, with no account required. If you find DevBox Tools useful, consider supporting the project.",
+    "supportLink": "Support DevBox Tools →"
   },
   "privacy": {
     "metaTitle": "Privacy Policy — DevBox Tools",
