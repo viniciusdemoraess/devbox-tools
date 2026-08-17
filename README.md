@@ -20,9 +20,7 @@
 
 ## Screenshot
 
-> Add a screenshot here: save a PNG of the home page as `docs/screenshot.png` and uncomment the line below.
-
-<!-- ![DevBox Tools home page](docs/screenshot.png) -->
+![DevBox Tools home page](docs/screenshot.png)
 
 ---
 
