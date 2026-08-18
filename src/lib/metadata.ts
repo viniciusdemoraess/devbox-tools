@@ -15,6 +15,7 @@ export function pageMetadata(
     alternates: {
       canonical,
       languages: {
+        "x-default": slug ? `${base}/pt/${slug}` : `${base}/pt`,
         en: slug ? `${base}/en/${slug}` : `${base}/en`,
         pt: slug ? `${base}/pt/${slug}` : `${base}/pt`,
       },
